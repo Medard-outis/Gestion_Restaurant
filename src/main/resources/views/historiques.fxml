@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" 
-            prefHeight="595.0" prefWidth="970.0" style="-fx-background-color: #f1f2f6;" 
-            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" 
-            fx:controller="controller.HistoriquesController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="595.0" prefWidth="970.0" style="-fx-background-color: #f1f2f6;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HistoriquesController">
    <children>
-      <HBox alignment="CENTER_LEFT" layoutX="18.0" layoutY="13.0" prefHeight="39.0" prefWidth="932.0" 
-            style="-fx-border-color: #8f8dab;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+      <HBox alignment="CENTER_LEFT" layoutX="18.0" layoutY="13.0" prefHeight="39.0" prefWidth="932.0" style="-fx-border-color: #8f8dab;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
          <children>
             <Label alignment="CENTER" prefHeight="50.0" prefWidth="262.0" text="Historiques" textFill="#8f8dab">
                <font>
@@ -32,9 +41,9 @@
       </HBox>
 
       <!-- Barre de contrôles -->
-      <HBox spacing="10" layoutX="20.0" layoutY="60.0" prefWidth="930.0" alignment="CENTER_LEFT">
+      <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="60.0" prefWidth="930.0" spacing="10">
          <children>
-            <TextField fx:id="searchField" promptText="Rechercher..." prefWidth="200.0">
+            <TextField fx:id="searchField" prefWidth="200.0" promptText="Rechercher...">
                <font>
                   <Font name="Roboto Condensed" size="14.0" />
                </font>
@@ -44,14 +53,14 @@
                   <Font name="Roboto Condensed" size="14.0" />
                </font>
             </Label>
-            <DatePicker fx:id="filterDatePicker" prefWidth="150.0"/>
+            <DatePicker fx:id="filterDatePicker" prefWidth="150.0" />
             <Label text="Type:">
                <font>
                   <Font name="Roboto Condensed" size="14.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="filterTypeChoiceBox" prefWidth="120.0"/>
-            <Button text="Actualiser" onAction="#handleRefresh" style="-fx-background-color: #056BB3; -fx-text-fill: white;"/>
+            <ChoiceBox fx:id="filterTypeChoiceBox" prefWidth="120.0" />
+            <Button onAction="#handleRefresh" style="-fx-background-color: #056BB3; -fx-text-fill: white;" text="Actualiser" />
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -59,12 +68,10 @@
       </HBox>
 
       <!-- Label pour le chiffre d'affaires -->
-      <Label fx:id="totalRevenueLabel" layoutX="20.0" layoutY="100.0" text="Chiffre d'affaires: 0 FC" 
-             style="-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #056BB3;"/>
+      <Label fx:id="totalRevenueLabel" layoutX="20.0" layoutY="100.0" style="-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #056BB3;" text="Chiffre d'affaires: 0 FC" />
 
       <!-- TabPane pour les différents historiques -->
-      <TabPane fx:id="historyTabPane" layoutX="20.0" layoutY="130.0" prefHeight="445.0" prefWidth="930.0" 
-               style="-fx-border-color: #8f8dab;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+      <TabPane fx:id="historyTabPane" layoutX="20.0" layoutY="130.0" prefHeight="445.0" prefWidth="930.0" style="-fx-border-color: #8f8dab;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
         <tabs>
           <!-- Onglet Ventes du jour -->
           <Tab closable="false" text="Ventes du jour">
@@ -74,19 +81,18 @@
                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                  </padding>
                  <children>
-                    <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <HBox alignment="CENTER_RIGHT" spacing="10">
                        <children>
-                          <Button text="Exporter" onAction="#handleExportVentes" 
-                                  style="-fx-background-color: #28a745; -fx-text-fill: white;"/>
+                          <Button onAction="#handleExportVentes" style="-fx-background-color: #28a745; -fx-text-fill: white;" text="Exporter" />
                        </children>
                     </HBox>
                     <TableView fx:id="ventesTable" VBox.vgrow="ALWAYS">
                        <columns>
-                          <TableColumn fx:id="colClientName" text="Client" prefWidth="150.0"/>
-                          <TableColumn fx:id="colTableNumber" text="Table" prefWidth="80.0"/>
-                          <TableColumn fx:id="colDate" text="Date" prefWidth="100.0"/>
-                          <TableColumn fx:id="colMontant" text="Montant (FC)" prefWidth="120.0"/>
-                          <TableColumn fx:id="colStatus" text="Statut" prefWidth="100.0"/>
+                          <TableColumn fx:id="colClientName" prefWidth="150.0" text="Client" />
+                          <TableColumn fx:id="colTableNumber" prefWidth="80.0" text="Table" />
+                          <TableColumn fx:id="colDate" prefWidth="100.0" text="Date" />
+                          <TableColumn fx:id="colMontant" prefWidth="120.0" text="Montant (FC)" />
+                          <TableColumn fx:id="colStatus" prefWidth="100.0" text="Statut" />
                        </columns>
                     </TableView>
                  </children>
@@ -101,20 +107,19 @@
                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                  </padding>
                  <children>
-                    <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <HBox alignment="CENTER_RIGHT" spacing="10">
                        <children>
-                          <Button text="Exporter" onAction="#handleExportStock" 
-                                  style="-fx-background-color: #28a745; -fx-text-fill: white;"/>
+                          <Button onAction="#handleExportStock" style="-fx-background-color: #28a745; -fx-text-fill: white;" text="Exporter" />
                        </children>
                     </HBox>
                     <TableView fx:id="stockTable" VBox.vgrow="ALWAYS">
                        <columns>
-                          <TableColumn fx:id="colProductName" text="Produit" prefWidth="150.0"/>
-                          <TableColumn fx:id="colMovementType" text="Type" prefWidth="80.0"/>
-                          <TableColumn fx:id="colQuantity" text="Quantité" prefWidth="80.0"/>
-                          <TableColumn fx:id="colReason" text="Raison" prefWidth="200.0"/>
-                          <TableColumn fx:id="colMovementDate" text="Date" prefWidth="100.0"/>
-                          <TableColumn fx:id="colUser" text="Utilisateur" prefWidth="120.0"/>
+                          <TableColumn fx:id="colProductName" prefWidth="150.0" text="Produit" />
+                          <TableColumn fx:id="colMovementType" prefWidth="80.0" text="Type" />
+                          <TableColumn fx:id="colQuantity" prefWidth="80.0" text="Quantité" />
+                          <TableColumn fx:id="colReason" prefWidth="200.0" text="Raison" />
+                          <TableColumn fx:id="colMovementDate" prefWidth="100.0" text="Date" />
+                          <TableColumn fx:id="colUser" prefWidth="120.0" text="Utilisateur" />
                        </columns>
                     </TableView>
                  </children>
@@ -130,20 +135,88 @@
                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                  </padding>
                  <children>
-                    <Label text="Produits avec un stock faible (moins de 10 unités)" 
-                           style="-fx-font-weight: bold; -fx-text-fill: #dc3545;"/>
+                    <Label style="-fx-font-weight: bold; -fx-text-fill: #dc3545;" text="Produits avec un stock faible (moins de 10 unités)" />
                     <TableView>
                        <columns>
-                          <TableColumn text="Produit" prefWidth="200.0"/>
-                          <TableColumn text="Stock actuel" prefWidth="100.0"/>
-                          <TableColumn text="Catégorie" prefWidth="150.0"/>
-                          <TableColumn text="Prix unitaire" prefWidth="120.0"/>
+                          <TableColumn prefWidth="200.0" text="Produit" />
+                          <TableColumn prefWidth="100.0" text="Stock actuel" />
+                          <TableColumn prefWidth="150.0" text="Catégorie" />
+                          <TableColumn prefWidth="120.0" text="Prix unitaire" />
                        </columns>
                     </TableView>
                  </children>
               </VBox>
             </content>
           </Tab>
+            <Tab text="Gestions des Utilisateurs">
+               <content>
+                  <VBox alignment="TOP_CENTER" prefHeight="361.0" prefWidth="928.0" spacing="10">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <children>
+                        <SplitPane dividerPositions="0.6236203090507726" prefHeight="411.0" prefWidth="908.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="392.0" prefWidth="572.0">
+                                 <children>
+                                    <ScrollPane layoutX="193.0" layoutY="96.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="341.0" prefWidth="564.0">
+                                             <children>
+                                                <TreeTableView editable="true" layoutX="59.0" layoutY="18.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                  <columns>
+                                                    <TreeTableColumn prefWidth="114.99999237060547" text="Nom" />
+                                                    <TreeTableColumn prefWidth="76.0" text="Rôle" />
+                                                      <TreeTableColumn prefWidth="114.99999237060547" text="Heure Connexion" />
+                                                      <TreeTableColumn prefWidth="114.99999237060547" text="Heure déconnexion" />
+                                                      <TreeTableColumn prefWidth="114.99999237060547" text="Date déconnexion" />
+                                                  </columns>
+                                                </TreeTableView>
+                                             </children>
+                                          </AnchorPane>
+                                      </content>
+                                    </ScrollPane>
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                 <children>
+                                    <Label layoutX="118.0" layoutY="17.0" text="Informations" textFill="#6865bc">
+                                       <font>
+                                          <Font name="Roboto Condensed Bold" size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="18.0" layoutY="95.0" text="Dernière déconnexion :" textFill="#868282">
+                                       <font>
+                                          <Font name="Roboto Condensed" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="172.0" layoutY="96.0" text="13 / 06 /2025">
+                                       <font>
+                                          <Font name="Roboto Condensed" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="20.0" layoutY="62.0" text="Nom : " textFill="#868282">
+                                       <font>
+                                          <Font name="Roboto Condensed" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="82.0" layoutY="59.0" text="Rooney Kal">
+                                       <font>
+                                          <Font name="Roboto Condensed" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="280.0" layoutY="96.0" text="18 : 30 ">
+                                       <font>
+                                          <Font name="Roboto Condensed" size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children></AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
         </tabs>
       </TabPane>
    </children>

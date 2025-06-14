@@ -100,7 +100,7 @@ public class AuthService {
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, newUsername);
             if (!newPassword.isEmpty()) {
-                String hashed = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+                String hashed = BCrypt.hashpw(newPassword, BCrypt.gensalt()); // Hasher le mot de passe
                 stmt.setString(2, hashed);
                 stmt.setBoolean(3, isAdmin);
                 stmt.setString(4, oldUsername);
