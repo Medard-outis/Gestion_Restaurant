@@ -28,6 +28,8 @@ public class AuthController implements Initializable {
 
     private AuthService authService;
 
+    private AuthService authService;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         authService = new AuthService();
@@ -44,6 +46,7 @@ public class AuthController implements Initializable {
         
         roleChoiceBox.getItems().addAll("Admin", "Utilisateur");
         roleChoiceBox.setValue("Admin");
+
 
         // Fermer l'application
         Exit.setOnMouseClicked(event -> {

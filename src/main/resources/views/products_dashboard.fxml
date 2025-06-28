@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="20" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="org.example.gestion_restaurant.controllers.ProductController">
+
+   <!-- Titre -->
+   <HBox alignment="CENTER_LEFT" style="-fx-border-color: #8f8dab; -fx-border-width: 0 0 2 0;">
+      <children>
+         <Label text="Gestion des Produits" styleClass="title">
+            <graphic>
+               <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../Images/burger.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+         </Label>
+      </children>
+      <padding>
+         <Insets bottom="15.0" />
+      </padding>
+   </HBox>
+
+   <!-- Contenu principal -->
+   <HBox spacing="20" VBox.vgrow="ALWAYS">
+      <children>
+         <!-- Formulaire -->
+         <VBox spacing="15" prefWidth="300" styleClass="panel">
+            <children>
+               <Label text="Informations du produit" styleClass="section-header" />
+               
+               <VBox spacing="5">
+                  <children>
+                     <Label text="Nom du produit" />
+                     <TextField fx:id="nameField" promptText="Nom du produit" />
+                  </children>
+               </VBox>
+               
+               <VBox spacing="5">
+                  <children>
+                     <Label text="Catégorie" />
+                     <ChoiceBox fx:id="categoryChoiceBox" prefWidth="280" />
+                  </children>
+               </VBox>
+               
+               <VBox spacing="5">
+                  <children>
+                     <Label text="Prix unitaire (FC)" />
+                     <TextField fx:id="priceField" promptText="0.00" />
+                  </children>
+               </VBox>
+               
+               <VBox spacing="5">
+                  <children>
+                     <Label text="Quantité en stock" />
+                     <TextField fx:id="quantityField" promptText="0" />
+                  </children>
+               </VBox>
+               
+               <VBox spacing="5">
+                  <children>
+                     <Label text="Date d'ajout" />
+                     <DatePicker fx:id="datePicker" prefWidth="280" />
+                  </children>
+               </VBox>
+               
+               <!-- Boutons d'action -->
+               <VBox spacing="10">
+                  <children>
+                     <Button fx:id="addButton" onAction="#handleAddProduct" prefWidth="280" 
+                             styleClass="btn-success" text="Ajouter le produit">
+                        <graphic>
+                           <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../Images/add1.png" />
+                              </image>
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                     
+                     <Button fx:id="updateButton" onAction="#handleUpdateProduct" prefWidth="280" 
+                             styleClass="btn-primary" text="Modifier le produit" disable="true">
+                        <graphic>
+                           <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../Images/menu1.png" />
+                              </image>
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                     
+                     <Button fx:id="deleteButton" onAction="#handleDeleteProduct" prefWidth="280" 
+                             styleClass="btn-danger" text="Supprimer le produit" disable="true">
+                        <graphic>
+                           <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../Images/icons8_delete_sign_50px.png" />
+                              </image>
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                     
+                     <Separator />
+                     
+                     <Button onAction="#handleClearFields" prefWidth="280" 
+                             styleClass="btn-secondary" text="Effacer les champs" />
+                     
+                     <Button onAction="#handleRefresh" prefWidth="280" 
+                             styleClass="btn-info" text="Actualiser la liste" />
+                  </children>
+               </VBox>
+            </children>
+         </VBox>
+
+         <!-- Liste des produits -->
+         <VBox spacing="15" HBox.hgrow="ALWAYS">
+            <children>
+               <!-- Filtres et recherche -->
+               <HBox spacing="15" alignment="CENTER_LEFT">
+                  <children>
+                     <Label text="Recherche:" />
+                     <TextField fx:id="searchField" promptText="Rechercher un produit..." prefWidth="250" />
+                     
+                     <Label text="Filtre:" />
+                     <ChoiceBox fx:id="filterChoiceBox" prefWidth="150" />
+                  </children>
+               </HBox>
+               
+               <!-- Tableau des produits -->
+               <TableView fx:id="productsTable" VBox.vgrow="ALWAYS">
+                  <columns>
+                     <TableColumn fx:id="colName" text="Nom" prefWidth="200" />
+                     <TableColumn fx:id="colCategory" text="Catégorie" prefWidth="120" />
+                     <TableColumn fx:id="colQuantity" text="Stock" prefWidth="80" />
+                     <TableColumn fx:id="colPrice" text="Prix unitaire" prefWidth="100" />
+                     <TableColumn fx:id="colTotalValue" text="Valeur totale" prefWidth="120" />
+                     <TableColumn fx:id="colDate" text="Date" prefWidth="100" />
+                  </columns>
+               </TableView>
+            </children>
+         </VBox>
+      </children>
+   </HBox>
+
+   <padding>
+      <Insets top="20.0" bottom="20.0" left="20.0" right="20.0" />
+   </padding>
+</VBox>

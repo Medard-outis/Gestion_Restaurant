@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -10,18 +11,22 @@
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="1150.0" style="-fx-background-color: #f1f2f6;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AuthController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" 
+            prefHeight="660.0" prefWidth="1150.0" style="-fx-background-color: #f1f2f6;" 
+            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="org.example.gestion_restaurant.controllers.AuthController">
    <children>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane prefHeight="660.0" prefWidth="1150.0" AnchorPane.bottomAnchor="0.0" 
+                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         
+         <!-- En-tête -->
          <top>
-            <AnchorPane prefHeight="132.0" prefWidth="1150.0" BorderPane.alignment="CENTER">
+            <VBox BorderPane.alignment="CENTER">
                <children>
+
                   <HBox alignment="CENTER" layoutX="-4.0" layoutY="35.0" prefHeight="97.0" prefWidth="1150.0" style="-fx-background-color: #F1F2F6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
                      <children>
                         <Label style="-fx-text-fill: #056bb3;" text="RESTAURANT LE - NOTRE" textFill="#056bb3">
@@ -37,9 +42,11 @@
                   <Pane layoutX="124.0" layoutY="-1.0" prefHeight="25.0" prefWidth="1150.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="107.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <ImageView fx:id="Exit" fitHeight="25.0" fitWidth="25.0" layoutX="1117.0" pickOnBounds="true" preserveRatio="true">
+
                            <image>
-                              <Image url="@../Images/Exit.png" />
+                              <Image url="@../Images/Minimize.png" />
                            </image>
+
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -57,16 +64,34 @@
                         <DropShadow />
                      </effect>
                   </Pane>
+
                </children>
-            </AnchorPane>
+            </VBox>
          </top>
+         
+         <!-- Contenu principal -->
          <center>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" BorderPane.alignment="CENTER">
                <children>
-                  <Pane prefHeight="528.0" prefWidth="729.0">
+                  <VBox alignment="CENTER" spacing="30" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);">
+                     <padding>
+                        <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+                     </padding>
                      <children>
-                        <AnchorPane layoutX="9.0" layoutY="54.0" prefHeight="396.0" prefWidth="709.0" style="-fx-background-color: White; -fx-effect: dropshad; -fx-background-radius: 4; -fx-border-radius: 10;">
+                        <!-- Image de connexion -->
+                        <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/userpassword_deusuari_787.png" />
+                           </image>
+                        </ImageView>
+                        
+                        <!-- Titre -->
+                        <Label text="CONNEXION" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #056BB3;" />
+                        
+                        <!-- Formulaire -->
+                        <VBox spacing="20" prefWidth="350">
                            <children>
+
                               <Pane layoutX="68.0" layoutY="98.0" prefHeight="396.0" prefWidth="275.0" style="-fx-background-color: #0a4969;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="434.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <ImageView fitHeight="391.0" fitWidth="265.0" layoutX="11.0" layoutY="-9.0" pickOnBounds="true" preserveRatio="true">
@@ -138,7 +163,7 @@
                            </effect>
                         </AnchorPane>
                      </children>
-                  </Pane>
+                  </VBox>
                </children>
             </HBox>
          </center>

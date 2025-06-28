@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="660.0" prefWidth="1150.0" style="-fx-background-color: #f1f2f6;" 
+            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="org.example.gestion_restaurant.controllers.DashboardController">
+
+   <!-- En-tête -->
+   <top>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <!-- Barre de titre -->
+            <HBox alignment="CENTER_RIGHT" prefHeight="35.0" style="-fx-background-color: #032d4d;">
+               <children>
+                  <Label fx:id="welcomeLabel" text="Bienvenue Administrateur" style="-fx-text-fill: white; -fx-font-size: 14px;" 
+                         HBox.hgrow="ALWAYS" />
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/Minimize.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ImageView fx:id="exitIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/Exit.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+               <padding>
+                  <Insets left="15.0" top="7.0" bottom="7.0" />
+               </padding>
+            </HBox>
+            
+            <!-- Menu horizontal -->
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-width: 0 0 1 0;">
+               <children>
+                  <Label fx:id="menuLabel" text="MENU" style="-fx-font-weight: bold; -fx-text-fill: #666;">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/menu1.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="15.0" right="30.0" />
+                     </HBox.margin>
+                  </Label>
+                  
+                  <Button onAction="#loadHomeView" styleClass="menuItem" text="Accueil">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/dash1.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  
+                  <Button onAction="#loadProductsView" styleClass="menuItem" text="Produits">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/burger.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  
+                  <Button onAction="#loadOrdersView" styleClass="menuItem" text="Commandes">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/menu.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  
+                  <Button onAction="#loadTablesView" styleClass="menuItem" text="Tables">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/target.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  
+                  <Button onAction="#loadStockView" styleClass="menuItem" text="Stock">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/stock_18293704.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  
+                  <Button onAction="#loadUsersView" styleClass="menuItem" text="Utilisateurs">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/user.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  
+                  <Button onAction="#loadReportsView" styleClass="menuItem" text="Rapports">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/data1.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  
+                  <Region HBox.hgrow="ALWAYS" />
+                  
+                  <Button fx:id="logoutButton" onAction="#handleLogout" styleClass="btn-danger" text="Déconnexion">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/userpassword_deusuari_787.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets top="5.0" bottom="5.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+
+   <!-- Contenu principal -->
+   <center>
+      <StackPane fx:id="contentArea" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets top="10.0" bottom="10.0" left="10.0" right="10.0" />
+         </padding>
+      </StackPane>
+   </center>
+</BorderPane>

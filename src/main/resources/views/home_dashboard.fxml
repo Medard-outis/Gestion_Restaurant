@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox spacing="20" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="org.example.gestion_restaurant.controllers.HomeController">
+   
+   <!-- Titre -->
+   <HBox alignment="CENTER_LEFT" style="-fx-border-color: #8f8dab; -fx-border-width: 0 0 2 0;">
+      <children>
+         <Label text="Tableau de Bord" styleClass="title">
+            <graphic>
+               <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../Images/dash1.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+         </Label>
+      </children>
+      <padding>
+         <Insets bottom="15.0" />
+      </padding>
+   </HBox>
+
+   <!-- Statistiques principales -->
+   <HBox spacing="20" alignment="CENTER">
+      <children>
+         <!-- Utilisateurs -->
+         <VBox alignment="CENTER" styleClass="card" spacing="10" prefWidth="180">
+            <children>
+               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../Images/user.png" />
+                  </image>
+               </ImageView>
+               <Label text="Utilisateurs" style="-fx-font-size: 16px; -fx-text-fill: #666;" />
+               <Label fx:id="usersCountLabel" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #056BB3;" />
+            </children>
+         </VBox>
+
+         <!-- Ventes du jour -->
+         <VBox alignment="CENTER" styleClass="card" spacing="10" prefWidth="180">
+            <children>
+               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../Images/report1.png" />
+                  </image>
+               </ImageView>
+               <Label text="Ventes du jour" style="-fx-font-size: 16px; -fx-text-fill: #666;" />
+               <Label fx:id="dailySalesLabel" text="0 FC" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #28a745;" />
+            </children>
+         </VBox>
+
+         <!-- Tables -->
+         <VBox alignment="CENTER" styleClass="card" spacing="10" prefWidth="180">
+            <children>
+               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../Images/target.png" />
+                  </image>
+               </ImageView>
+               <Label text="Tables occupées" style="-fx-font-size: 16px; -fx-text-fill: #666;" />
+               <HBox alignment="CENTER" spacing="5">
+                  <children>
+                     <Label fx:id="occupiedTablesLabel" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #ffc107;" />
+                     <Label text="/" style="-fx-font-size: 24px; -fx-text-fill: #666;" />
+                     <Label fx:id="tablesCountLabel" text="0" style="-fx-font-size: 24px; -fx-text-fill: #666;" />
+                  </children>
+               </HBox>
+            </children>
+         </VBox>
+
+         <!-- Commandes en attente -->
+         <VBox alignment="CENTER" styleClass="card" spacing="10" prefWidth="180">
+            <children>
+               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../Images/menu.png" />
+                  </image>
+               </ImageView>
+               <Label text="Commandes en attente" style="-fx-font-size: 16px; -fx-text-fill: #666;" />
+               <Label fx:id="pendingOrdersLabel" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #dc3545;" />
+            </children>
+         </VBox>
+      </children>
+   </HBox>
+
+   <!-- Alertes de stock -->
+   <HBox spacing="20" alignment="CENTER">
+      <children>
+         <!-- Stock faible -->
+         <VBox alignment="CENTER" styleClass="card" spacing="10" prefWidth="200" style="-fx-border-color: #ffc107; -fx-border-width: 2;">
+            <children>
+               <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../Images/stock_18293704.png" />
+                  </image>
+               </ImageView>
+               <Label text="Stock faible" style="-fx-font-size: 14px; -fx-text-fill: #856404;" />
+               <Label fx:id="lowStockLabel" text="0" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #ffc107;" />
+               <Label text="produits" style="-fx-font-size: 12px; -fx-text-fill: #666;" />
+            </children>
+         </VBox>
+
+         <!-- Rupture de stock -->
+         <VBox alignment="CENTER" styleClass="card" spacing="10" prefWidth="200" style="-fx-border-color: #dc3545; -fx-border-width: 2;">
+            <children>
+               <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../Images/icons8_delete_sign_50px.png" />
+                  </image>
+               </ImageView>
+               <Label text="Rupture de stock" style="-fx-font-size: 14px; -fx-text-fill: #721c24;" />
+               <Label fx:id="outOfStockLabel" text="0" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #dc3545;" />
+               <Label text="produits" style="-fx-font-size: 12px; -fx-text-fill: #666;" />
+            </children>
+         </VBox>
+
+         <!-- Chiffre d'affaires -->
+         <VBox alignment="CENTER" styleClass="card" spacing="10" prefWidth="250" style="-fx-border-color: #28a745; -fx-border-width: 2;">
+            <children>
+               <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../Images/backup.png" />
+                  </image>
+               </ImageView>
+               <Label text="Chiffre d'affaires du jour" style="-fx-font-size: 14px; -fx-text-fill: #155724;" />
+               <Label fx:id="totalRevenueLabel" text="0 FC" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #28a745;" />
+            </children>
+         </VBox>
+      </children>
+   </HBox>
+
+   <!-- Image d'illustration -->
+   <HBox alignment="CENTER">
+      <children>
+         <ImageView fitHeight="300.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../Images/3929637.jpg" />
+            </image>
+         </ImageView>
+      </children>
+   </HBox>
+
+   <padding>
+      <Insets top="20.0" bottom="20.0" left="20.0" right="20.0" />
+   </padding>
+</VBox>
