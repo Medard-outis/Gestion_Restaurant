@@ -10,7 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -23,7 +22,6 @@ public class AuthController implements Initializable {
 
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
-    @FXML private ChoiceBox<String> roleChoiceBox;
     @FXML private Label errorLabel;
     @FXML private ImageView Exit;
 
@@ -43,9 +41,6 @@ public class AuthController implements Initializable {
             e.printStackTrace();
         }
 
-        roleChoiceBox.getItems().addAll("Admin", "Utilisateur");
-        roleChoiceBox.setValue("Admin");
-
         // Fermer l'application
         if (Exit != null) {
             Exit.setOnMouseClicked(event -> System.exit(0));
@@ -56,7 +51,6 @@ public class AuthController implements Initializable {
     private void handleLogin() throws IOException {
         String username = usernameField.getText().trim();
         String password = passwordField.getText().trim();
-        String selectedRole = roleChoiceBox.getValue();
 
         if (username.isEmpty() || password.isEmpty()) {
             showAlert("Erreur", "Veuillez remplir tous les champs");
@@ -67,15 +61,9 @@ public class AuthController implements Initializable {
             User user = authService.getUser(username);
 
             if (user != null) {
-                boolean roleMatches = (user.isAdmin() && "Admin".equals(selectedRole)) ||
-                                      (!user.isAdmin() && "Utilisateur".equals(selectedRole));
-
-                if (roleMatches) {
-                    utils.Session.getInstance().setUser(user);
-                    redirectToDashboard(user);
-                } else {
-                    showAlert("Erreur", "Le rôle sélectionné ne correspond pas à l'utilisateur.");
-                }
+                // Suppression de la vérification du rôle
+                utils.Session.getInstance().setUser(user);
+                redirectToDashboard(user);
             } else {
                 showAlert("Erreur", "Utilisateur non trouvé");
             }

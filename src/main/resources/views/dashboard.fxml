@@ -40,10 +40,10 @@
                     <children>
                         <JFXButton onAction="#home" styleClass="sidebar-button" text="Accueil" />
                         <JFXButton onAction="#facturations" styleClass="sidebar-button" text="Facturations" />
-                        <JFXButton onAction="#gestion" styleClass="sidebar-button" text="Gestion Stock" />
-                        <JFXButton onAction="#utilisateurs" styleClass="sidebar-button" text="Utilisateurs" />
-                        <JFXButton onAction="#historiques" styleClass="sidebar-button" text="Historiques" />
-                        <JFXButton onAction="#mouvementsStock" styleClass="sidebar-button" text="Mouvements" />
+                        <JFXButton fx:id="gestionButton" onAction="#gestion" styleClass="sidebar-button" text="Gestion Stock" />
+                        <JFXButton fx:id="utilisateursButton" onAction="#utilisateurs" styleClass="sidebar-button" text="Utilisateurs" />
+                        <JFXButton fx:id="historiquesButton" onAction="#historiques" styleClass="sidebar-button" text="Historiques" />
+                        <JFXButton fx:id="mouvementsStockButton" onAction="#mouvementsStock" styleClass="sidebar-button" text="Mouvements" />
                         <VBox VBox.vgrow="ALWAYS" />
                         <JFXButton fx:id="logoutButton" onAction="#handleLogout" styleClass="logout-button" text="Déconnexion" />
                     </children>
