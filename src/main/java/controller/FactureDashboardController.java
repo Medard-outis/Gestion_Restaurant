@@ -1,32 +1,28 @@
 package controller;
 
 import com.jfoenix.controls.JFXButton;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import models.Facture;
 import models.FactureItem;
 import models.Product;
 import services.FactureService;
 import services.ProductService;
-import utils.Session;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class FactureDashboardController implements Initializable {
 
     @FXML private TextField clientNameField;
-    @FXML private TextField productNumberField;
     @FXML private ChoiceBox<String> productChoiceBox;
     @FXML private TextField quantityField;
     @FXML private TextField unitPriceField;
@@ -35,22 +31,16 @@ public class FactureDashboardController implements Initializable {
     @FXML private TextField totalGeneralField;
 
     @FXML private TableView<FactureItem> factureItemsTable;
-    @FXML private TableColumn<FactureItem, Integer> colNumber;
     @FXML private TableColumn<FactureItem, String> colDesignation;
     @FXML private TableColumn<FactureItem, Integer> colQuantity;
     @FXML private TableColumn<FactureItem, Double> colUnitPrice;
     @FXML private TableColumn<FactureItem, Double> colTotalPrice;
-
-    @FXML private JFXButton addButton;
-    @FXML private JFXButton deleteButton;
-    @FXML private JFXButton modifyButton;
-    @FXML private JFXButton printButton;
+    @FXML private TableColumn<FactureItem, Void> colActions;
 
     private ProductService productService;
     private FactureService factureService;
     private ObservableList<FactureItem> factureItems;
     private Facture currentFacture;
-    private FactureItem selectedItem;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -71,37 +61,55 @@ public class FactureDashboardController implements Initializable {
     }
 
     private void setupUI() {
-        // Configuration du DatePicker
         datePicker.setValue(LocalDate.now());
-
-        // Configuration des tables (1-20)
         for (int i = 1; i <= 20; i++) {
             tableChoiceBox.getItems().add(i);
         }
         tableChoiceBox.setValue(1);
-
-        // Configuration du total
         totalGeneralField.setEditable(false);
-        totalGeneralField.setText("0");
-
-        // Listeners
         productChoiceBox.setOnAction(e -> updateProductInfo());
-        quantityField.textProperty().addListener((obs, oldVal, newVal) -> calculateItemTotal());
-        unitPriceField.textProperty().addListener((obs, oldVal, newVal) -> calculateItemTotal());
     }
 
     private void setupTable() {
-        colNumber.setCellValueFactory(data -> {
-            int index = factureItemsTable.getItems().indexOf(data.getValue()) + 1;
-            return new javafx.beans.property.SimpleIntegerProperty(index).asObject();
-        });
         colDesignation.setCellValueFactory(new PropertyValueFactory<>("productName"));
         colQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
         colTotalPrice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
+        setupActionsColumn();
 
         factureItemsTable.setItems(factureItems);
-        factureItemsTable.setOnMouseClicked(this::onTableClick);
+    }
+
+    private void setupActionsColumn() {
+        colActions.setCellFactory(param -> new TableCell<>() {
+            private final Button deleteButton = new Button("Supprimer");
+
+            {
+                deleteButton.setStyle("-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-weight: bold;");
+                deleteButton.setOnAction(event -> {
+                    FactureItem item = getTableView().getItems().get(getIndex());
+                    if (item != null) {
+                        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+                        confirmation.setTitle("Confirmer la suppression");
+                        confirmation.setHeaderText("Voulez-vous vraiment supprimer l'article : " + item.getProductName() + " ?");
+                        confirmation.showAndWait().ifPresent(response -> {
+                            if (response == ButtonType.OK) {
+                                handleDeleteItem(item);
+                            }
+                        });
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                }
+            }
+        });
     }
 
     private void loadProducts() {
@@ -131,25 +139,12 @@ public class FactureDashboardController implements Initializable {
                     .orElse(null);
                 
                 if (selectedProduct != null) {
-                    productNumberField.setText(String.valueOf(selectedProduct.getId()));
                     unitPriceField.setText(String.valueOf(selectedProduct.getPrice()));
                 }
             } catch (Exception e) {
                 showAlert("Erreur lors de la récupération des informations produit", Alert.AlertType.ERROR);
                 e.printStackTrace();
             }
-        }
-    }
-
-    private void calculateItemTotal() {
-        try {
-            if (!quantityField.getText().isEmpty() && !unitPriceField.getText().isEmpty()) {
-                int quantity = Integer.parseInt(quantityField.getText());
-                double unitPrice = Double.parseDouble(unitPriceField.getText());
-                // Le total de l'item sera calculé automatiquement dans FactureItem
-            }
-        } catch (NumberFormatException e) {
-            // Ignore les erreurs de format pendant la saisie
         }
     }
 
@@ -162,15 +157,13 @@ public class FactureDashboardController implements Initializable {
             int quantity = Integer.parseInt(quantityField.getText());
             double unitPrice = Double.parseDouble(unitPriceField.getText());
 
-            // Vérifier le stock disponible
             if (!checkStockAvailability(productName, quantity)) {
-                showAlert("Stock insuffisant pour ce produit", Alert.AlertType.WARNING);
+                showAlert("Stock insuffisant pour ce produit.", Alert.AlertType.WARNING);
                 return;
             }
 
             FactureItem item = new FactureItem(0, productName, quantity, unitPrice);
             factureItems.add(item);
-            currentFacture.addItem(item);
 
             updateTotalGeneral();
             clearItemFields();
@@ -184,51 +177,10 @@ public class FactureDashboardController implements Initializable {
         }
     }
 
-    @FXML
-    private void handleDeleteItem() {
-        if (selectedItem == null) {
-            showAlert("Veuillez sélectionner un article à supprimer", Alert.AlertType.WARNING);
-            return;
-        }
-
-        factureItems.remove(selectedItem);
-        currentFacture.removeItem(selectedItem);
+    private void handleDeleteItem(FactureItem item) {
+        if (item == null) return;
+        factureItems.remove(item);
         updateTotalGeneral();
-        clearItemFields();
-        selectedItem = null;
-        showAlert("Article supprimé", Alert.AlertType.INFORMATION);
-    }
-
-    @FXML
-    private void handleModifyItem() {
-        if (selectedItem == null) {
-            showAlert("Veuillez sélectionner un article à modifier", Alert.AlertType.WARNING);
-            return;
-        }
-
-        try {
-            if (!validateItemFields()) return;
-
-            String productName = productChoiceBox.getValue();
-            int quantity = Integer.parseInt(quantityField.getText());
-            double unitPrice = Double.parseDouble(unitPriceField.getText());
-
-            selectedItem.setProductName(productName);
-            selectedItem.setQuantity(quantity);
-            selectedItem.setUnitPrice(unitPrice);
-
-            factureItemsTable.refresh();
-            updateTotalGeneral();
-            clearItemFields();
-            selectedItem = null;
-            showAlert("Article modifié avec succès", Alert.AlertType.INFORMATION);
-
-        } catch (NumberFormatException e) {
-            showAlert("Veuillez entrer des valeurs numériques valides", Alert.AlertType.ERROR);
-        } catch (Exception e) {
-            showAlert("Erreur lors de la modification", Alert.AlertType.ERROR);
-            e.printStackTrace();
-        }
     }
 
     @FXML
@@ -241,6 +193,7 @@ public class FactureDashboardController implements Initializable {
             currentFacture.setDate(datePicker.getValue());
             currentFacture.setStatus("EN_COURS");
             currentFacture.setIsPaid(false);
+            currentFacture.setItems(factureItems);
 
             boolean success = factureService.createFacture(currentFacture);
 
@@ -267,15 +220,6 @@ public class FactureDashboardController implements Initializable {
 
         // TODO: Implémenter l'impression de la facture
         showAlert("Fonctionnalité d'impression en cours de développement", Alert.AlertType.INFORMATION);
-    }
-
-    private void onTableClick(MouseEvent event) {
-        selectedItem = factureItemsTable.getSelectionModel().getSelectedItem();
-        if (selectedItem != null) {
-            productChoiceBox.setValue(selectedItem.getProductName());
-            quantityField.setText(String.valueOf(selectedItem.getQuantity()));
-            unitPriceField.setText(String.valueOf(selectedItem.getUnitPrice()));
-        }
     }
 
     private boolean validateItemFields() {
@@ -336,17 +280,17 @@ public class FactureDashboardController implements Initializable {
         double total = factureItems.stream()
             .mapToDouble(FactureItem::getTotalPrice)
             .sum();
-        totalGeneralField.setText(String.format("%.0f", total));
+        totalGeneralField.setText(String.format("%.0f FCFA", total));
         currentFacture.setTotalAmount(total);
     }
 
     private void clearItemFields() {
         productChoiceBox.getSelectionModel().clearSelection();
-        productNumberField.clear();
         quantityField.clear();
         unitPriceField.clear();
     }
 
+    @FXML
     private void clearAllFields() {
         clientNameField.clear();
         tableChoiceBox.setValue(1);

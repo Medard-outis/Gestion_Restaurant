@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -23,17 +24,15 @@ public class AuthController implements Initializable {
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private ChoiceBox<String> roleChoiceBox;
+    @FXML private Label errorLabel;
     @FXML private ImageView Exit;
-    @FXML private ImageView Reduire;
-
-    private AuthService authService;
 
     private AuthService authService;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         authService = new AuthService();
-        
+
         // Créer un utilisateur admin par défaut s'il n'existe pas
         try {
             User existingAdmin = authService.getUser("admin");
@@ -43,21 +42,14 @@ public class AuthController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         roleChoiceBox.getItems().addAll("Admin", "Utilisateur");
         roleChoiceBox.setValue("Admin");
 
-
         // Fermer l'application
-        Exit.setOnMouseClicked(event -> {
-            System.exit(0);
-        });
-
-        // Réduire la fenêtre
-        Reduire.setOnMouseClicked(event -> {
-            Stage stage = (Stage) Reduire.getScene().getWindow();
-            stage.setIconified(true);
-        });
+        if (Exit != null) {
+            Exit.setOnMouseClicked(event -> System.exit(0));
+        }
     }
 
     @FXML
@@ -75,9 +67,8 @@ public class AuthController implements Initializable {
             User user = authService.getUser(username);
 
             if (user != null) {
-                // Vérifier la correspondance du rôle
                 boolean roleMatches = (user.isAdmin() && "Admin".equals(selectedRole)) ||
-                                    (!user.isAdmin() && "Utilisateur".equals(selectedRole));
+                                      (!user.isAdmin() && "Utilisateur".equals(selectedRole));
 
                 if (roleMatches) {
                     utils.Session.getInstance().setUser(user);
@@ -92,8 +83,6 @@ public class AuthController implements Initializable {
             showAlert("Erreur d'authentification", "Identifiants incorrects");
         }
     }
-
-
 
     private void redirectToDashboard(User user) throws IOException {
         Stage stage = (Stage) usernameField.getScene().getWindow();

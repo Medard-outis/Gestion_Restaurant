@@ -83,7 +83,7 @@ public class AdminController implements Initializable {
             Stage stage = (Stage) logoutButton.getScene().getWindow();
 
             // ✅ Chargement de la nouvelle vue (login)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/auth.fxml"));
             Parent root = loader.load();
 
             Scene scene = new Scene(root);

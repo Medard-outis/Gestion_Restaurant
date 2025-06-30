@@ -61,8 +61,32 @@ public class GestionDashboardController implements Initializable {
             colPrixTotal.setCellValueFactory(data -> new ReadOnlyDoubleWrapper(data.getValue().getPrice() * data.getValue().getQuantity()).asObject());
             colDate.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDate().toString()));
 
+            // Appliquer le style à la colonne de stock
+            colStock.setCellFactory(column -> new TableCell<Product, Integer>() {
+                @Override
+                protected void updateItem(Integer item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (empty || item == null) {
+                        setText(null);
+                        setStyle("");
+                    } else {
+                        setText(item.toString());
+                        Product product = getTableView().getItems().get(getIndex());
+                        if (product.getQuantity() == 0) {
+                            setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
+                        } else if (product.getQuantity() < 10) {
+                            setStyle("-fx-text-fill: orange; -fx-font-weight: bold;");
+                        } else {
+                            setStyle("");
+                        }
+                    }
+                }
+            });
+
             filterChoiceBox.getSelectionModel().selectFirst();
             filterField.textProperty().addListener((obs, oldVal, newVal) -> filterProducts());
+            filterChoiceBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> filterProducts());
 
             productsTable.setOnMouseClicked(this::onRowSelect);
             refreshProductTable();
@@ -88,6 +112,17 @@ public class GestionDashboardController implements Initializable {
     private void handleAddProduct() {
         try {
             if (!validateFields()) return;
+
+            // Vérifier si le produit existe déjà
+            String productName = designationField.getText().trim();
+            boolean productExists = productService.getAllProducts().stream()
+                    .anyMatch(p -> p.getName().equalsIgnoreCase(productName));
+
+            if (productExists) {
+                showAlert("Un produit avec ce nom existe déjà. Veuillez utiliser un autre nom.", Alert.AlertType.ERROR);
+                return;
+            }
+
             Product product = new Product(
                     designationField.getText(),
                     Double.parseDouble(priceField.getText()),
@@ -185,11 +220,57 @@ public class GestionDashboardController implements Initializable {
     }
 
     private boolean validateFields() {
-        return !(designationField.getText().isEmpty() ||
-                priceField.getText().isEmpty() ||
-                quantityField.getText().isEmpty() ||
-                categorieChoiceBox.getValue() == null ||
-                datePicker.getValue() == null);
+        String designation = designationField.getText();
+        String categorie = categorieChoiceBox.getValue();
+        String quantiteStr = quantityField.getText();
+        String prixStr = priceField.getText();
+        LocalDate date = datePicker.getValue();
+
+        if (designation == null || designation.trim().isEmpty()) {
+            showAlert("Le champ Désignation ne peut pas être vide.", Alert.AlertType.WARNING);
+            return false;
+        }
+        if (categorie == null || categorie.isEmpty()) {
+            showAlert("Veuillez sélectionner une catégorie.", Alert.AlertType.WARNING);
+            return false;
+        }
+        if (quantiteStr == null || quantiteStr.trim().isEmpty()) {
+            showAlert("Le champ Quantité ne peut pas être vide.", Alert.AlertType.WARNING);
+            return false;
+        }
+        if (prixStr == null || prixStr.trim().isEmpty()) {
+            showAlert("Le champ Prix Unitaire ne peut pas être vide.", Alert.AlertType.WARNING);
+            return false;
+        }
+
+        try {
+            int quantite = Integer.parseInt(quantiteStr);
+            if (quantite < 0) {
+                showAlert("La quantité ne peut pas être négative.", Alert.AlertType.WARNING);
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            showAlert("La quantité doit être un nombre entier valide.", Alert.AlertType.WARNING);
+            return false;
+        }
+
+        try {
+            double prix = Double.parseDouble(prixStr);
+            if (prix < 0) {
+                showAlert("Le prix ne peut pas être négatif.", Alert.AlertType.WARNING);
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            showAlert("Le prix doit être un nombre valide.", Alert.AlertType.WARNING);
+            return false;
+        }
+
+        if (date == null) {
+            showAlert("Veuillez sélectionner une date.", Alert.AlertType.WARNING);
+            return false;
+        }
+
+        return true;
     }
 
     private void refreshProductTable() {
@@ -213,7 +294,8 @@ public class GestionDashboardController implements Initializable {
         productsTable.setItems(FXCollections.observableArrayList(filtered));
     }
 
-    private void clearFields() {
+    @FXML
+    public void clearFields() {
         designationField.clear();
         categorieChoiceBox.getSelectionModel().clearSelection();
         quantityField.clear();

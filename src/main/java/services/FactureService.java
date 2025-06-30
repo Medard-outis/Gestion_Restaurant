@@ -156,6 +156,48 @@ public class FactureService {
         return 0.0;
     }
 
+    public int getOrderCountByDate(LocalDate date) {
+        String query = "SELECT COUNT(id) as total FROM factures WHERE date = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setDate(1, Date.valueOf(date));
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("total");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    public String getTopSellingProductByDate(LocalDate date) {
+        String query = "SELECT product_name, SUM(quantity) as total_quantity " +
+                       "FROM facture_items fi " +
+                       "JOIN factures f ON fi.facture_id = f.id " +
+                       "WHERE f.date = ? " +
+                       "GROUP BY product_name " +
+                       "ORDER BY total_quantity DESC " +
+                       "LIMIT 1";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setDate(1, Date.valueOf(date));
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("product_name");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return "-";
+    }
+
     public boolean updateFactureStatus(int factureId, String status, boolean isPaid) {
         String query = "UPDATE factures SET status = ?, is_paid = ? WHERE id = ?";
         

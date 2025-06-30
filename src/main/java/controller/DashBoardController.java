@@ -1,19 +1,15 @@
 package controller;
 
-import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import models.User;
 import utils.Session;
 
@@ -29,9 +25,6 @@ public class DashBoardController implements Initializable {
     @FXML private Button logoutButton;
     @FXML private ImageView Exit;
     @FXML private ImageView Reduire;
-    @FXML private Label Menu;
-    @FXML private Label MenuClose;
-    @FXML private AnchorPane slider;
     @FXML private StackPane contentArea;
 
     @Override
@@ -41,73 +34,54 @@ public class DashBoardController implements Initializable {
             System.out.println("Bienvenue " + user.getUsername());
         }
 
-        // Fermer l'application
-        Exit.setOnMouseClicked(event -> {
-            System.exit(0);
-        });
-
-        // Réduire la fenêtre
+        // Gérer les actions des icônes
+        Exit.setOnMouseClicked(event -> System.exit(0));
         Reduire.setOnMouseClicked(event -> {
             Stage stage = (Stage) Reduire.getScene().getWindow();
-            stage.setIconified(true);
+            if (stage != null) {
+                stage.setIconified(true);
+            }
         });
-
-
-
 
         // Charger la vue d'accueil par défaut
         try {
-           Parent fxml = FXMLLoader.load(getClass().getResource("/views/homeDashboard.fxml"));
-           contentArea.getChildren().setAll(fxml);
+           loadHomePage();
         } catch (IOException ex) {
             Logger.getLogger(DashBoardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void produits(javafx.event.ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/views/productDashboard.fxml"));
-        contentArea.getChildren().removeAll();
-        contentArea.getChildren().setAll(root);
+    private void loadHomePage() throws IOException {
+        Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/homeDashboard.fxml")));
+        contentArea.getChildren().setAll(fxml);
     }
 
-    public void home(javafx.event.ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/views/homeDashboard.fxml"));
-        contentArea.getChildren().removeAll();
-        contentArea.getChildren().setAll(root);
+    public void home(ActionEvent actionEvent) throws IOException {
+        loadHomePage();
     }
 
-    public void facturations (javafx.event.ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/views/factureDashboard.fxml"));
-        contentArea.getChildren().removeAll();
-        contentArea.getChildren().setAll(root);
+    public void facturations(ActionEvent actionEvent) throws IOException {
+        loadView("/views/factureDashboard.fxml");
     }
 
-    public void gererUtilisateurs(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/views/userCrud.fxml"));
-        contentArea.getChildren().setAll(root);
+    public void gestion(ActionEvent actionEvent) throws IOException {
+        loadView("/views/gestionDashboard.fxml");
     }
 
-    public void gestion (javafx.event.ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/views/gestionDashboard.fxml"));
-        contentArea.getChildren().removeAll();
-        contentArea.getChildren().setAll(root);
+    public void utilisateurs(ActionEvent actionEvent) throws IOException {
+        loadView("/views/gestion_users.fxml");
     }
 
-    public void utilisateurs (javafx.event.ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/views/gestion_users.fxml"));
-        contentArea.getChildren().removeAll();
-        contentArea.getChildren().setAll(root);
+    public void historiques(ActionEvent actionEvent) throws IOException {
+        loadView("/views/historiques.fxml");
     }
 
-    public void historiques (javafx.event.ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/views/historiques.fxml"));
-        contentArea.getChildren().removeAll();
-        contentArea.getChildren().setAll(root);
+    public void mouvementsStock(ActionEvent actionEvent) throws IOException {
+        loadView("/views/stockMovement.fxml");
     }
 
-    public void mouvementsStock(javafx.event.ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/views/stockMovement.fxml"));
-        contentArea.getChildren().removeAll();
+    private void loadView(String fxmlPath) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxmlPath)));
         contentArea.getChildren().setAll(root);
     }
 

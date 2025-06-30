@@ -1,172 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.Cursor?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" 
-            prefHeight="660.0" prefWidth="1150.0" style="-fx-background-color: #f1f2f6;" 
-            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" 
-            fx:controller="org.example.gestion_restaurant.controllers.AuthController">
-   <children>
-      <BorderPane prefHeight="660.0" prefWidth="1150.0" AnchorPane.bottomAnchor="0.0" 
-                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         
-         <!-- En-tête -->
-         <top>
-            <VBox BorderPane.alignment="CENTER">
-               <children>
-
-                  <HBox alignment="CENTER" layoutX="-4.0" layoutY="35.0" prefHeight="97.0" prefWidth="1150.0" style="-fx-background-color: #F1F2F6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
-                     <children>
-                        <Label style="-fx-text-fill: #056bb3;" text="RESTAURANT LE - NOTRE" textFill="#056bb3">
-                           <font>
-                              <Font name="Roboto Condensed Bold" size="48.0" />
-                           </font>
-                           <effect>
-                              <DropShadow />
-                           </effect>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <Pane layoutX="124.0" layoutY="-1.0" prefHeight="25.0" prefWidth="1150.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="107.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <ImageView fx:id="Exit" fitHeight="25.0" fitWidth="25.0" layoutX="1117.0" pickOnBounds="true" preserveRatio="true">
-
-                           <image>
-                              <Image url="@../Images/Minimize.png" />
-                           </image>
-
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </ImageView>
-                        <ImageView fx:id="Reduire" fitHeight="25.0" fitWidth="25.0" layoutX="1084.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/icons8-moins-48.png" />
-                           </image>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </ImageView>
-                     </children>
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                  </Pane>
-
-               </children>
-            </VBox>
-         </top>
-         
-         <!-- Contenu principal -->
-         <center>
-            <HBox alignment="CENTER" BorderPane.alignment="CENTER">
-               <children>
-                  <VBox alignment="CENTER" spacing="30" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);">
-                     <padding>
-                        <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
-                     </padding>
-                     <children>
-                        <!-- Image de connexion -->
-                        <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/userpassword_deusuari_787.png" />
-                           </image>
-                        </ImageView>
-                        
-                        <!-- Titre -->
-                        <Label text="CONNEXION" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #056BB3;" />
-                        
-                        <!-- Formulaire -->
-                        <VBox spacing="20" prefWidth="350">
-                           <children>
-
-                              <Pane layoutX="68.0" layoutY="98.0" prefHeight="396.0" prefWidth="275.0" style="-fx-background-color: #0a4969;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="434.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <ImageView fitHeight="391.0" fitWidth="265.0" layoutX="11.0" layoutY="-9.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../Images/dash1.png" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </Pane>
-                              <Label layoutX="334.0" layoutY="129.0" text="Nom">
-                                 <font>
-                                    <Font name="Roboto Condensed Light" size="15.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="334.0" layoutY="179.0" text="Mot de passe">
-                                 <font>
-                                    <Font name="Roboto Condensed Light" size="15.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="usernameField" layoutX="431.0" layoutY="121.0" prefHeight="35.0" prefWidth="220.0" promptText="Entrez Votre nom">
-                                 <font>
-                                    <Font name="Roboto Condensed Light" size="14.0" />
-                                 </font>
-                              </TextField>
-                              <PasswordField fx:id="passwordField" layoutX="431.0" layoutY="171.0" prefHeight="35.0" prefWidth="220.0" promptText="Entrez Votre Mot de passe">
-                                 <font>
-                                    <Font name="Roboto Condensed Light" size="14.0" />
-                                 </font>
-                              </PasswordField>
-                              <JFXButton layoutX="336.0" layoutY="307.0" onAction="#handleLogin" prefHeight="35.0" prefWidth="111.0" style="-fx-background-color: WHITE; -fx-border-color: #C9E24D; -fx-text-fill: Black;" text="Connexion">
-                                 <font>
-                                    <Font name="Roboto Condensed" size="14.0" />
-                                 </font>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </JFXButton>
-                              <JFXButton layoutX="541.0" layoutY="307.0" prefHeight="35.0" prefWidth="111.0" style="-fx-background-color: WHITE; -fx-border-color: #EE6A8C; -fx-text-fill: Black;" text="Annuler">
-                                 <font>
-                                    <Font name="Roboto Condensed" size="14.0" />
-                                 </font>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </JFXButton>
-                              <ChoiceBox fx:id="roleChoiceBox" layoutX="334.0" layoutY="253.0" prefHeight="28.0" prefWidth="208.0" style="-fx-background-color: WHITE; -fx-border-color: #056bb3;">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </ChoiceBox>
-                              <Label layoutX="332.0" layoutY="233.0" style="-fx-text-fill: #CCC;" text="Choisissez Votre Rôle :">
-                                 <font>
-                                    <Font name="Roboto Condensed" size="14.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="errorLabel" alignment="CENTER" layoutX="315.0" layoutY="363.0" prefHeight="19.0" prefWidth="379.0" style="-fx-weight: bold; -fx-text-fill: #EE6A8C;">
-                                 <font>
-                                    <Font name="Roboto Condensed" size="16.0" />
-                                 </font>
-                              </Label>
-                              <ImageView fitHeight="91.0" fitWidth="82.0" layoutX="463.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../Images/key_password_lock_800.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                           <effect>
-                              <InnerShadow />
-                           </effect>
-                        </AnchorPane>
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-         </center>
-      </BorderPane>
-   </children>
+<AnchorPane prefHeight="600.0" prefWidth="450.0" styleClass="root" stylesheets="@../styles/auth.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AuthController">
+    <children>
+        <VBox styleClass="login-container" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+            <children>
+                <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../Images/userpassword_deusuari_787.png" />
+                    </image>
+                    <VBox.margin>
+                        <Insets bottom="10.0" />
+                    </VBox.margin>
+                </ImageView>
+                <Label styleClass="login-title" text="Connexion" />
+                <TextField fx:id="usernameField" promptText="Nom d'utilisateur" styleClass="text-field" />
+                <PasswordField fx:id="passwordField" promptText="Mot de passe" styleClass="password-field" />
+                <ChoiceBox fx:id="roleChoiceBox" prefWidth="350.0" styleClass="choice-box" />
+                <JFXButton onAction="#handleLogin" styleClass="login-button" text="Se connecter" />
+                <Label fx:id="errorLabel" styleClass="error-label" />
+            </children>
+        </VBox>
+        <ImageView fx:id="exit" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <image>
+                <Image url="@../Images/close.png" />
+            </image>
+        </ImageView>
+    </children>
 </AnchorPane>

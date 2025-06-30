@@ -6,12 +6,8 @@ module org.example.gestion_restaurant {
     requires com.jfoenix;
     requires org.controlsfx.controls;
 
-    exports org.example.gestion_restaurant;
-    exports org.example.gestion_restaurant.controllers;
-    exports org.example.gestion_restaurant.models;
-    exports org.example.gestion_restaurant.services;
-    exports org.example.gestion_restaurant.utils;
+    opens controller to javafx.fxml;
+    opens models to javafx.base;
+    exports org;
 
-    opens org.example.gestion_restaurant.controllers to javafx.fxml;
-    opens org.example.gestion_restaurant.models to javafx.base;
 }

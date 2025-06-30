@@ -46,7 +46,7 @@ public class AuthService {
                         rs.getString("username"),
                         rs.getString("password"),
                         rs.getBoolean("is_admin"),
-                        rs.getDate("createdAt").toLocalDate()
+                        rs.getDate("created_at").toLocalDate()
 
                         );
             }
@@ -58,11 +58,12 @@ public class AuthService {
 
     public boolean createUser(String username, String password, boolean isAdmin) {
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-        String query = "INSERT INTO users (username, password, is_admin) VALUES (?, ?, ?)";
+        String query = "INSERT INTO users (username, password, is_admin, created_at) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, username);
             stmt.setString(2, hashedPassword);
             stmt.setBoolean(3, isAdmin);
+            stmt.setDate(4, new java.sql.Date(System.currentTimeMillis()));
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -82,7 +83,7 @@ public class AuthService {
                         rs.getString("username"),
                         rs.getString("password"),
                         rs.getBoolean("is_admin"),
-                        rs.getDate("createdAt").toLocalDate()
+                        rs.getDate("created_at").toLocalDate()
                 );
                 users.add(user);
             }

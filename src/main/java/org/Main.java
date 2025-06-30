@@ -15,9 +15,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        DatabaseInitializer.initialize(); // <-- ajoute cette ligne AVANT le chargement FXML
+         DatabaseInitializer.initialize();
 
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/dashboard.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/auth.fxml")));
         primaryStage.initStyle(StageStyle.UNDECORATED);
 
         root.setOnMousePressed(event -> {
@@ -31,7 +31,7 @@ public class Main extends Application {
             primaryStage.setY(event.getScreenY() - y);
         });
 
-        primaryStage.setScene(new Scene(root, 1150, 660));
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 

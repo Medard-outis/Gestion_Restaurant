@@ -8,293 +8,51 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="660.0" prefWidth="1150.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashBoardController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/dashboard.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashBoardController">
     <children>
-        <BorderPane layoutX="114.0" layoutY="54.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <!-- En-tête -->
             <top>
-                <AnchorPane prefHeight="65.0" prefWidth="200.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
+                <HBox alignment="CENTER_LEFT" styleClass="header">
                     <children>
-                        <Pane layoutX="102.0" layoutY="20.0" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: #032d4d;" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                            <children>
-                                <ImageView fx:id="Exit" fitHeight="22.0" fitWidth="22.0" layoutX="1126.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../Images/Exit.png" />
-                                    </image>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                                </ImageView>
-                        <ImageView fx:id="Reduire" fitHeight="22.0" fitWidth="22.0" layoutX="1094.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+                        <Label styleClass="header-title" text="Tableau de Bord" />
+                        <HBox HBox.hgrow="ALWAYS" />
+                        <ImageView fx:id="Reduire" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/icons8-moins-48.png" />
                            </image>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
                         </ImageView>
-                            </children>
-                        </Pane>
-                        <HBox layoutX="239.0" layoutY="1.0" prefHeight="40.0" prefWidth="954.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
-                            <children>
-                                <JFXButton onAction="#home" prefHeight="38.0" prefWidth="136.0" styleClass="menuItem" text="Tableau de bord">
-                                    <graphic>
-                                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../Images/home.png" />
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                                </JFXButton>
-                                <JFXButton onAction="#facturations" prefHeight="38.0" prefWidth="136.0" styleClass="menuItem" text="Facturations">
-                                    <graphic>
-                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../Images/icons8-facturation-80.png" />
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                                </JFXButton>
-                                <JFXButton onAction="#gestion" prefHeight="38.0" prefWidth="136.0" styleClass="menuItem" text="Gestion  Stock">
-                                    <graphic>
-                                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../Images/report1.png" />
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                                </JFXButton>
-                                <JFXButton onAction="#utilisateurs" prefHeight="38.0" prefWidth="136.0" styleClass="menuItem" text="Utilisateurs">
-                                    <graphic>
-                                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../Images/user.png" />
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                                </JFXButton>
-                        <JFXButton layoutX="418.0" layoutY="10.0" onAction="#historiques" prefHeight="38.0" prefWidth="136.0" styleClass="menuItem" text="Historiques">
-                           <graphic>
-                              <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../Images/data1.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </JFXButton>
-                        <JFXButton layoutX="554.0" layoutY="10.0" onAction="#mouvementsStock" prefHeight="38.0" prefWidth="136.0" styleClass="menuItem" text="Mouvements">
-                           <graphic>
-                              <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../Images/icons8-vendre-les-stock-64.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </JFXButton>
-                        <JFXButton layoutX="418.0" layoutY="10.0" onAction="#handleLogout" prefHeight="38.0" prefWidth="136.0" style="-fx-background-color: #ee6a8c;" styleClass="menuItem" text="Déconnexion">
-                           <graphic>
-                              <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../Images/userpassword_deusuari_787.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </JFXButton>
-
-                            </children>
-                        </HBox>
-                        <Label fx:id="Menu" layoutX="14.0" layoutY="36.0" prefHeight="22.0" prefWidth="133.0" text="MENU" textFill="#b7b7b7" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="1003.0" AnchorPane.topAnchor="36.0">
-                            <graphic>
-                                <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../Images/menu1.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                            <font>
-                                <Font name="System Bold" size="14.0" />
-                            </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                        </Label>
-                        <Label fx:id="MenuClose" layoutX="14.0" layoutY="36.0" prefHeight="22.0" prefWidth="89.0" text="MENU" textFill="#b7b7b7" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="1047.0" AnchorPane.topAnchor="36.0">
-                            <graphic>
-                                <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../Images/menu1.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                            <font>
-                                <Font name="System Bold" size="14.0" />
-                            </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                        </Label>
+                        <ImageView fx:id="Exit" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../Images/close.png" />
+                            </image>
+                        </ImageView>
                     </children>
-                </AnchorPane>
+                </HBox>
             </top>
+            <!-- Menu latéral -->
             <left>
-                <AnchorPane fx:id="slider" prefHeight="362.0" prefWidth="176.0" style="-fx-background-color: #0A4969;" BorderPane.alignment="CENTER">
+                <VBox styleClass="sidebar" BorderPane.alignment="CENTER">
                     <children>
-                        <VBox layoutX="14.0" layoutY="99.0" prefHeight="445.0" prefWidth="176.0" AnchorPane.bottomAnchor="62.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="99.0">
-                            <children>
-                                <JFXButton alignment="BASELINE_LEFT" onAction="#home" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Tableau de Bord" textFill="WHITE">
-                                    <font>
-                                        <Font name="System Bold" size="15.0" />
-                                    </font>
-                                    <graphic>
-                                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../Images/dash.png" />
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                                </JFXButton>
-                                <JFXButton alignment="BASELINE_LEFT" onAction="#facturations" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Facturations" textFill="WHITE">
-                                    <font>
-                                        <Font name="System Bold" size="15.0" />
-                                    </font>
-                                    <graphic>
-                                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../Images/icons8-facturation-80.png" />
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                                </JFXButton>
-                                <JFXButton alignment="BASELINE_LEFT" onAction="#gestion" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Gestions Stock" textFill="WHITE">
-                                    <font>
-                                        <Font name="System Bold" size="15.0" />
-                                    </font>
-                                    <graphic>
-                                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../Images/report.png" />
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                                </JFXButton>
-                                <JFXButton alignment="BASELINE_LEFT" onAction="#utilisateurs" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Utilisateurs" textFill="WHITE">
-                                    <font>
-                                        <Font name="System Bold" size="15.0" />
-                                    </font>
-                                    <graphic>
-                                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../Images/user.png" />
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                                </JFXButton>
-                        <AnchorPane prefHeight="294.0" prefWidth="176.0">
-                           <children>
-                              <JFXButton alignment="BASELINE_LEFT" onAction="#historiques" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Historiques" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="15.0" />
-                                 </font>
-                                 <graphic>
-                                    <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../Images/data.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </JFXButton>
-                              <JFXButton alignment="BASELINE_LEFT" layoutY="38.0" onAction="#mouvementsStock" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Mouvements Stock" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="15.0" />
-                                 </font>
-                                 <graphic>
-                                    <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../Images/icons8-vendre-les-stock-64%20(1).png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </JFXButton>
-                           </children>
-                        </AnchorPane>
-                            </children>
-                        </VBox>
-                  <AnchorPane layoutX="-2.0" layoutY="488.0" prefHeight="107.0" prefWidth="176.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="500.0">
-                     <children>
-                        <VBox alignment="CENTER" layoutY="44.0" prefHeight="62.0" prefWidth="176.0" style="-fx-background-color: #f1f2f6;">
-                           <children>
-                              <JFXButton fx:id="logoutButton" alignment="CENTER" onAction="#handleLogout" prefHeight="38.0" prefWidth="176.0" style="-fx-background-color: #ee6a8c;" styleClass="sidebarItem" text="Déconnexion" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="15.0" />
-                                 </font>
-                                 <graphic>
-                                    <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../Images/userpassword_deusuari_787.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </JFXButton>
-                           </children>
-                        </VBox>
-                     </children>
-                  </AnchorPane>
+                        <JFXButton onAction="#home" styleClass="sidebar-button" text="Accueil" />
+                        <JFXButton onAction="#facturations" styleClass="sidebar-button" text="Facturations" />
+                        <JFXButton onAction="#gestion" styleClass="sidebar-button" text="Gestion Stock" />
+                        <JFXButton onAction="#utilisateurs" styleClass="sidebar-button" text="Utilisateurs" />
+                        <JFXButton onAction="#historiques" styleClass="sidebar-button" text="Historiques" />
+                        <JFXButton onAction="#mouvementsStock" styleClass="sidebar-button" text="Mouvements" />
+                        <VBox VBox.vgrow="ALWAYS" />
+                        <JFXButton fx:id="logoutButton" onAction="#handleLogout" styleClass="logout-button" text="Déconnexion" />
                     </children>
-                </AnchorPane>
+                </VBox>
             </left>
-         <center>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f1f2f6;" BorderPane.alignment="CENTER">
-               <children>
-                  <StackPane fx:id="contentArea" layoutY="2.0" prefHeight="602.0" prefWidth="974.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="2.0" />
-               </children>
-            </AnchorPane>
-         </center>
+            <!-- Contenu principal -->
+            <center>
+                <StackPane fx:id="contentArea" styleClass="content-area" BorderPane.alignment="CENTER" />
+            </center>
         </BorderPane>
     </children>
 </AnchorPane>

@@ -1,235 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXRadioButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.effect.InnerShadow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="595.0" prefWidth="970.0" style="-fx-background-color: #f1f2f6;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FactureDashboardController">
+<AnchorPane prefHeight="700.0" prefWidth="1100.0" style="-fx-background-color: #f4f7f9;" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FactureDashboardController">
    <children>
-      <HBox alignment="CENTER_LEFT" layoutX="18.0" layoutY="13.0" prefHeight="39.0" prefWidth="932.0" style="-fx-border-color: #8f8dab;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+      <VBox spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
          <children>
-            <Label alignment="CENTER" prefHeight="50.0" prefWidth="262.0" text="Facturation" textFill="#8f8dab">
-               <font>
-                  <Font name="Roboto Light Italic" size="20.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Images/Document-edit_icon-icons.com_52127.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </Label>
-         </children>
-         <opaqueInsets>
-            <Insets bottom="100.0" left="100.0" right="100.0" top="100.0" />
-         </opaqueInsets>
-      </HBox>
-      <Pane layoutX="88.0" layoutY="155.0" prefHeight="425.0" prefWidth="291.0" style="-fx-border-color: #8f8dab;" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="70.0">
-         <children>
-            <VBox layoutX="-1.0" layoutY="2.0" prefHeight="421.0" prefWidth="292.0">
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
+            <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #334756;" text="Facturation" />
+            <HBox spacing="20.0">
                <children>
-                  <Label layoutX="20.0" layoutY="20.0" text="Nom Client" textFill="#cccccc">
-                     <font>
-                        <Font name="Roboto Condensed" size="18.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="clientNameField" layoutX="20.0" layoutY="43.0" prefHeight="40.0" promptText="Nom du client">
-                     <font>
-                        <Font name="Roboto Condensed" size="18.0" />
-                     </font>
-                  </TextField>
-                  <Label layoutX="20.0" layoutY="166.0" text="Numéro Produit" textFill="#cccccc">
-                     <font>
-                        <Font name="Roboto Condensed" size="18.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="productNumberField" layoutX="20.0" layoutY="189.0" prefHeight="40.0" promptText="Numéro de produit" editable="false">
-                     <font>
-                        <Font name="Roboto Condensed" size="18.0" />
-                     </font>
-                  </TextField>
-                  <Label text="Désignation" textFill="#cccccc">
-                     <font>
-                        <Font name="Roboto Condensed" size="18.0" />
-                     </font>
-                  </Label>
-                  <ChoiceBox fx:id="productChoiceBox" prefHeight="40.0" prefWidth="273.0" style="-fx-background-color: #f1f2f6; -fx-border-color: #8f8dab;">
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </ChoiceBox>
-                  <Label text="Quantité" textFill="#cccccc">
-                     <font>
-                        <Font name="Roboto Condensed" size="18.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="quantityField" prefHeight="40.0" promptText="Nombre de produit">
-                     <font>
-                        <Font name="Roboto Condensed" size="18.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </TextField>
-                  <Label text="Prix Unitaire" textFill="#cccccc">
-                     <font>
-                        <Font name="Roboto Condensed" size="18.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="unitPriceField" layoutX="20.0" layoutY="116.0" prefHeight="40.0" promptText="Prix Unitaire">
-                     <font>
-                        <Font name="Roboto Condensed" size="18.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </TextField>
-                  <Label text="Date du Jour" textFill="#cccccc">
-                     <font>
-                        <Font name="Roboto Condensed" size="18.0" />
-                     </font>
-                  </Label>
-                  <DatePicker fx:id="datePicker" prefHeight="40.0" prefWidth="283.0" />
+                  <!-- Formulaire de création -->
+                  <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.5, 0, 0);" HBox.hgrow="NEVER">
+                     <children>
+                        <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #555;" text="Nouvelle Facture" />
+                        <VBox spacing="5.0">
+                           <children>
+                              <Label text="Nom du Client" />
+                              <TextField fx:id="clientNameField" prefWidth="300.0" promptText="Entrez le nom du client" />
+                           </children>
+                        </VBox>
+                        <HBox spacing="10.0">
+                           <children>
+                              <VBox spacing="5.0">
+                                 <children>
+                                    <Label text="Table N°" />
+                                    <ChoiceBox fx:id="tableChoiceBox" prefWidth="145.0" />
+                                 </children>
+                              </VBox>
+                              <VBox spacing="5.0">
+                                 <children>
+                                    <Label text="Date" />
+                                    <DatePicker fx:id="datePicker" prefWidth="145.0" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #555;" text="Ajouter un Article" />
+                        <VBox spacing="5.0">
+                           <children>
+                              <Label text="Produit" />
+                              <ChoiceBox fx:id="productChoiceBox" prefWidth="300.0" />
+                           </children>
+                        </VBox>
+                        <HBox spacing="10.0">
+                           <children>
+                              <VBox spacing="5.0">
+                                 <children>
+                                    <Label text="Quantité" />
+                                    <TextField fx:id="quantityField" prefWidth="145.0" promptText="Qté" />
+                                 </children>
+                              </VBox>
+                              <VBox spacing="5.0">
+                                 <children>
+                                    <Label text="Prix Unitaire" />
+                                    <TextField fx:id="unitPriceField" prefWidth="145.0" promptText="Prix" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <JFXButton onAction="#handleAddItem" style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-weight: bold;" text="Ajouter Article" />
+                     </children>
+                  </VBox>
+                  <!-- Détails de la facture -->
+                  <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <TableView fx:id="factureItemsTable" VBox.vgrow="ALWAYS">
+                           <columns>
+                              <TableColumn fx:id="colDesignation" prefWidth="250.0" text="Désignation" />
+                              <TableColumn fx:id="colQuantity" prefWidth="100.0" text="Qté" />
+                              <TableColumn fx:id="colUnitPrice" prefWidth="120.0" text="Prix Unitaire" />
+                              <TableColumn fx:id="colTotalPrice" prefWidth="120.0" text="Prix Total" />
+                              <TableColumn fx:id="colActions" prefWidth="100.0" text="Actions" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                           <children>
+                              <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Total Général:" />
+                              <TextField fx:id="totalGeneralField" alignment="CENTER_RIGHT" editable="false" prefWidth="150.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="0 FCFA" />
+                           </children>
+                        </HBox>
+                        <HBox spacing="10.0">
+                           <children>
+                              <JFXButton onAction="#handleSaveFacture" style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: bold;" text="Enregistrer la Facture" HBox.hgrow="ALWAYS" />
+                              <JFXButton onAction="#handlePrintFacture" style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-weight: bold;" text="Imprimer" />
+                              <JFXButton onAction="#clearAllFields" style="-fx-background-color: #ffc107; -fx-text-fill: white; -fx-font-weight: bold;" text="Nouvelle Facture" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
                </children>
-            </VBox>
+            </HBox>
          </children>
-      </Pane>
-      <TableView fx:id="factureItemsTable" editable="true" layoutX="326.0" layoutY="178.0" prefHeight="316.0" prefWidth="624.0" tableMenuButtonVisible="true" AnchorPane.rightAnchor="20.0">
-         <columns>
-            <TableColumn fx:id="colNumber" prefWidth="75.0" text="N°" />
-            <TableColumn fx:id="colDesignation" minWidth="160.0" prefWidth="75.0" text="Désignations" />
-            <TableColumn fx:id="colQuantity" minWidth="100.0" prefWidth="75.0" text="Qté" />
-            <TableColumn fx:id="colUnitPrice" minWidth="120.0" prefWidth="75.0" text="Prix Unitaire" />
-            <TableColumn fx:id="colTotalPrice" minWidth="140.0" prefWidth="100.0" text="Prix Total" />
-         </columns>
-      </TableView>
-      <JFXButton fx:id="addButton" layoutX="29.0" layoutY="520.0" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #28a745; -fx-text-fill: white;" text="Ajouter" AnchorPane.leftAnchor="20.0" onAction="#handleAddItem">
-         <font>
-            <Font name="Roboto Condensed Bold" size="14.0" />
-         </font>
-         <effect>
-            <InnerShadow />
-         </effect>
-         <graphic>
-            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/add1.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </JFXButton>
-      <JFXButton fx:id="deleteButton" layoutX="184.0" layoutY="520.0" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #dc3545; -fx-text-fill: white;" text="Supprimer" onAction="#handleDeleteItem">
-         <font>
-            <Font name="Roboto Condensed Bold" size="14.0" />
-         </font>
-         <effect>
-            <InnerShadow />
-         </effect>
-         <graphic>
-            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/icons8_delete_sign_50px.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </JFXButton>
-      <JFXButton fx:id="modifyButton" layoutX="350.0" layoutY="519.0" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #007bff; -fx-text-fill: white;" text="Modifier" onAction="#handleModifyItem">
-         <font>
-            <Font name="Roboto Condensed Bold" size="14.0" />
-         </font>
-         <effect>
-            <InnerShadow />
-         </effect>
-         <graphic>
-            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/menu1.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </JFXButton>
-      <JFXButton layoutX="513.0" layoutY="519.0" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #17a2b8; -fx-text-fill: white;" text="Sauvegarder" onAction="#handleSaveFacture">
-         <font>
-            <Font name="Roboto Condensed Bold" size="14.0" />
-         </font>
-         <effect>
-            <InnerShadow />
-         </effect>
-         <graphic>
-            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/backup.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </JFXButton>
-      <JFXButton fx:id="printButton" layoutX="676.0" layoutY="519.0" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #6c757d; -fx-text-fill: white;" text="Imprimer" onAction="#handlePrintFacture">
-         <font>
-            <Font name="Roboto Condensed Bold" size="14.0" />
-         </font>
-         <effect>
-            <InnerShadow />
-         </effect>
-         <graphic>
-            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/backup.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </JFXButton>
-      <Label layoutX="341.0" layoutY="138.0" text="Numéro Table">
-         <font>
-            <Font name="Roboto Condensed" size="18.0" />
-         </font>
-         <effect>
-            <InnerShadow />
-         </effect>
-      </Label>
-      <ChoiceBox fx:id="tableChoiceBox" layoutX="463.0" layoutY="133.0" prefHeight="35.0" prefWidth="87.0" style="-fx-background-color: #f1f2f6; -fx-border-color: #8f8dab;" />
-      <TextField fx:id="totalGeneralField" alignment="CENTER" editable="false" layoutX="724.0" layoutY="91.0" prefHeight="40.0" prefWidth="168.0" style="-fx-background-color: #f1f2f6; -fx-border-color: #8f8dab;" text="0" AnchorPane.rightAnchor="78.0">
-         <font>
-            <Font name="Roboto Condensed" size="25.0" />
-         </font>
-      </TextField>
-      <Label layoutX="609.0" layoutY="104.0" text="Total Général">
-         <font>
-            <Font name="Roboto Condensed" size="18.0" />
-         </font>
-         <effect>
-            <InnerShadow />
-         </effect>
-      </Label>
-      <Label layoutX="898.0" layoutY="91.0" text="FC" AnchorPane.rightAnchor="34.0">
-         <font>
-            <Font name="Roboto Condensed" size="36.0" />
-         </font>
-         <effect>
-            <InnerShadow />
-         </effect>
-      </Label>
+      </VBox>
    </children>
 </AnchorPane>

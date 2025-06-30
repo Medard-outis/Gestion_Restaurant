@@ -62,6 +62,14 @@ public class Facture {
     public void setIsPaid(boolean isPaid) { this.isPaid.set(isPaid); }
     public void setStatus(String status) { this.status.set(status); }
 
+    public void setItems(List<FactureItem> items) {
+        this.items.clear();
+        if (items != null) {
+            this.items.addAll(items);
+        }
+        calculateTotal();
+    }
+
     public void addItem(FactureItem item) {
         items.add(item);
         calculateTotal();

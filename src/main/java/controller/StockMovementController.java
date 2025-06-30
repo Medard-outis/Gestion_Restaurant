@@ -29,6 +29,7 @@ public class StockMovementController implements Initializable {
     @FXML private RadioButton entreeRadio;
     @FXML private RadioButton sortieRadio;
     @FXML private DatePicker datePicker;
+    @FXML private ToggleGroup movementTypeGroup;
 
     @FXML private TableView<StockMovement> movementsTable;
     @FXML private TableColumn<StockMovement, String> colProduct;
@@ -40,7 +41,6 @@ public class StockMovementController implements Initializable {
 
     @FXML private TextField filterField;
     @FXML private ChoiceBox<String> filterTypeChoiceBox;
-    @FXML private Label stockStatusLabel;
 
     @FXML private JFXButton processButton;
     @FXML private JFXButton clearButton;
@@ -48,7 +48,6 @@ public class StockMovementController implements Initializable {
     private ProductService productService;
     private StockMovementService stockMovementService;
     private ObservableList<StockMovement> movementsData;
-    private ToggleGroup movementTypeGroup;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -70,9 +69,6 @@ public class StockMovementController implements Initializable {
 
     private void setupUI() {
         // Configuration des RadioButtons
-        movementTypeGroup = new ToggleGroup();
-        entreeRadio.setToggleGroup(movementTypeGroup);
-        sortieRadio.setToggleGroup(movementTypeGroup);
         entreeRadio.setSelected(true);
 
         // Configuration du DatePicker
@@ -85,9 +81,6 @@ public class StockMovementController implements Initializable {
 
         // Listener pour la recherche
         filterField.textProperty().addListener((obs, oldVal, newVal) -> filterMovements());
-
-        // Listener pour mise à jour du stock
-        productChoiceBox.setOnAction(e -> updateStockStatus());
     }
 
     private void setupTable() {
@@ -178,7 +171,6 @@ public class StockMovementController implements Initializable {
             if (success) {
                 showAlert("Mouvement de stock traité avec succès", Alert.AlertType.INFORMATION);
                 loadMovements();
-                updateStockStatus();
                 clearFields();
             } else {
                 if ("SORTIE".equals(movementType)) {
@@ -228,41 +220,6 @@ public class StockMovementController implements Initializable {
         }
     }
 
-    private void updateStockStatus() {
-        String productName = productChoiceBox.getValue();
-        if (productName != null) {
-            try {
-                Product product = findProductByName(productName);
-                if (product != null) {
-                    int currentStock = product.getQuantity();
-                    String status = String.format("Stock actuel: %d unités", currentStock);
-                    
-                    if (currentStock == 0) {
-                        status += " - RUPTURE DE STOCK";
-                        stockStatusLabel.setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
-                    } else if (currentStock < 10) {
-                        status += " - STOCK FAIBLE";
-                        stockStatusLabel.setStyle("-fx-text-fill: orange; -fx-font-weight: bold;");
-                    } else {
-                        stockStatusLabel.setStyle("-fx-text-fill: green; -fx-font-weight: bold;");
-                    }
-                    
-                    stockStatusLabel.setText(status);
-                } else {
-                    stockStatusLabel.setText("Produit non trouvé");
-                    stockStatusLabel.setStyle("-fx-text-fill: red;");
-                }
-            } catch (Exception e) {
-                stockStatusLabel.setText("Erreur de chargement du stock");
-                stockStatusLabel.setStyle("-fx-text-fill: red;");
-                e.printStackTrace();
-            }
-        } else {
-            stockStatusLabel.setText("Sélectionnez un produit");
-            stockStatusLabel.setStyle("-fx-text-fill: gray;");
-        }
-    }
-
     private Product findProductByName(String name) {
         try {
             List<Product> products = productService.getAllProducts();
@@ -308,8 +265,6 @@ public class StockMovementController implements Initializable {
         reasonTextArea.clear();
         entreeRadio.setSelected(true);
         datePicker.setValue(LocalDate.now());
-        stockStatusLabel.setText("Sélectionnez un produit");
-        stockStatusLabel.setStyle("-fx-text-fill: gray;");
     }
 
     private void showAlert(String message, Alert.AlertType type) {

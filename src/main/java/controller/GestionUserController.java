@@ -4,20 +4,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import models.User;
 import services.AuthService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class GestionUserController {
 
     @FXML private TableView<User> userTable;
     @FXML private TableColumn<User, String> usernameCol;
-    @FXML private TableColumn<User, String> passwordCol;
     @FXML private TableColumn<User, Boolean> isAdminCol;
+    @FXML private TableColumn<User, LocalDate> createdAtCol;
+    @FXML private TableColumn<User, Void> actionsCol;
 
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
@@ -30,12 +31,48 @@ public class GestionUserController {
     @FXML
     public void initialize() {
         usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
-        passwordCol.setCellValueFactory(new PropertyValueFactory<>("password"));
-        isAdminCol.setCellValueFactory(new PropertyValueFactory<>("admin"));
+        isAdminCol.setCellValueFactory(new PropertyValueFactory<>("isAdmin"));
+        createdAtCol.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+
+        // Configurer la colonne d'actions
+        setupActionsColumn();
 
         loadUsers();
 
-        userTable.setOnMouseClicked(this::onTableClick);
+        userTable.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 1) {
+                User selectedUser = userTable.getSelectionModel().getSelectedItem();
+                if (selectedUser != null) {
+                    populateForm(selectedUser);
+                }
+            }
+        });
+    }
+
+    private void setupActionsColumn() {
+        actionsCol.setCellFactory(param -> new TableCell<>() {
+            private final Button deleteButton = new Button("Supprimer");
+
+            {
+                deleteButton.setStyle("-fx-background-color: #dc3545; -fx-text-fill: white;");
+                deleteButton.setOnAction(event -> {
+                    User user = getTableView().getItems().get(getIndex());
+                    deleteUser(user);
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    HBox buttons = new HBox(deleteButton);
+                    buttons.setSpacing(10);
+                    setGraphic(buttons);
+                }
+            }
+        });
     }
 
     private void loadUsers() {
@@ -61,7 +98,7 @@ public class GestionUserController {
             clearForm();
             loadUsers();
         } else {
-            showAlert(Alert.AlertType.ERROR, "Erreur lors de l'ajout de l'utilisateur.");
+            showAlert(Alert.AlertType.ERROR, "Erreur : Le nom d'utilisateur existe déjà.");
         }
     }
 
@@ -69,13 +106,18 @@ public class GestionUserController {
     public void updateUser() {
         User selected = userTable.getSelectionModel().getSelectedItem();
         if (selected == null) {
-            showAlert(Alert.AlertType.WARNING, "Veuillez sélectionner un utilisateur.");
+            showAlert(Alert.AlertType.WARNING, "Veuillez sélectionner un utilisateur dans le tableau.");
             return;
         }
 
         String newUsername = usernameField.getText().trim();
-        String newPassword = passwordField.getText().trim(); // vide = pas de modification
+        String newPassword = passwordField.getText().trim();
         boolean isAdmin = isAdminCheckbox.isSelected();
+
+        if (newUsername.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Le nom d'utilisateur ne peut pas être vide.");
+            return;
+        }
 
         boolean success = authService.updateUser(
                 selected.getUsername(), newUsername, newPassword, isAdmin
@@ -86,51 +128,50 @@ public class GestionUserController {
             clearForm();
             loadUsers();
         } else {
-            showAlert(Alert.AlertType.ERROR, "Erreur lors de la mise à jour.");
+            showAlert(Alert.AlertType.ERROR, "Erreur lors de la mise à jour de l'utilisateur.");
         }
     }
 
-    @FXML
-    public void deleteUser() {
-        User selected = userTable.getSelectionModel().getSelectedItem();
-        if (selected == null) {
-            showAlert(Alert.AlertType.WARNING, "Sélectionnez un utilisateur à supprimer.");
-            return;
-        }
+    private void deleteUser(User user) {
+        if (user == null) return;
 
-        boolean success = authService.deleteUser(selected.getUsername());
-        if (success) {
-            showAlert(Alert.AlertType.INFORMATION, "Utilisateur supprimé.");
-            clearForm();
-            loadUsers();
-        } else {
-            showAlert(Alert.AlertType.ERROR, "Erreur lors de la suppression.");
-        }
-    }
+        // Confirmation de suppression
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Confirmer la suppression");
+        confirmation.setHeaderText("Voulez-vous vraiment supprimer l'utilisateur : " + user.getUsername() + " ?");
+        confirmation.setContentText("Cette action est irréversible.");
 
-    @FXML
-    public void filterUsers(KeyEvent event) {
-        String keyword = searchField.getText().toLowerCase();
-        ObservableList<User> filtered = FXCollections.observableArrayList();
-
-        for (User user : userList) {
-            if (user.getUsername().toLowerCase().contains(keyword)) {
-                filtered.add(user);
+        confirmation.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                boolean success = authService.deleteUser(user.getUsername());
+                if (success) {
+                    showAlert(Alert.AlertType.INFORMATION, "Utilisateur supprimé avec succès.");
+                    clearForm();
+                    loadUsers();
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Erreur lors de la suppression de l'utilisateur.");
+                }
             }
-        }
-
-        userTable.setItems(filtered);
+        });
     }
 
-    private void onTableClick(MouseEvent event) {
-        User selected = userTable.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            usernameField.setText(selected.getUsername());
-            passwordField.setText(""); // Ne pas afficher mot de passe
-            isAdminCheckbox.setSelected(selected.isAdmin());
+    @FXML
+    public void filterUsers() {
+        String keyword = searchField.getText().toLowerCase().trim();
+        userTable.setItems(userList.filtered(user ->
+                user.getUsername().toLowerCase().contains(keyword)
+        ));
+    }
+
+    private void populateForm(User user) {
+        if (user != null) {
+            usernameField.setText(user.getUsername());
+            passwordField.clear(); // Toujours effacer le champ de mot de passe
+            isAdminCheckbox.setSelected(user.isAdmin());
         }
     }
 
+    @FXML
     private void clearForm() {
         usernameField.clear();
         passwordField.clear();

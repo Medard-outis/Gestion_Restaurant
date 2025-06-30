@@ -1,0 +1,51 @@
+/* styles/dashboard.css */
+
+.sidebar {
+    -fx-background-color: #0A4969;
+}
+
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 15 10 15;
+    -fx-background-radius: 5;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: #0D5A8A;
+}
+
+.sidebar-button .glyph-icon {
+    -fx-fill: white;
+}
+
+.logout-button {
+    -fx-background-color: #d9534f;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.logout-button:hover {
+    -fx-background-color: #c9302c;
+}
+
+.header {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 5 15 5 15;
+}
+
+.header-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+.content-area {
+    -fx-background-color: #f4f7f9;
+}
+

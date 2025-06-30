@@ -7,11 +7,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import models.Facture;
 import models.StockMovement;
+// Assuming a UserActivity model exists
+// import models.UserActivity;
 import services.FactureService;
 import services.StockMovementService;
+// import services.UserActivityService;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -22,10 +29,13 @@ import java.util.stream.Collectors;
 
 public class HistoriquesController implements Initializable {
 
-    @FXML private TextField searchField;
+    // Common
     @FXML private TabPane historyTabPane;
-    
-    // Onglet Ventes du jour
+
+    // Ventes Tab
+    @FXML private TextField searchFieldVentes;
+    @FXML private DatePicker filterDatePickerVentes;
+    @FXML private Label totalRevenueLabel;
     @FXML private TableView<Facture> ventesTable;
     @FXML private TableColumn<Facture, String> colClientName;
     @FXML private TableColumn<Facture, Integer> colTableNumber;
@@ -33,7 +43,10 @@ public class HistoriquesController implements Initializable {
     @FXML private TableColumn<Facture, Double> colMontant;
     @FXML private TableColumn<Facture, String> colStatus;
 
-    // Onglet Mouvements de stock
+    // Stock Tab
+    @FXML private TextField searchFieldStock;
+    @FXML private DatePicker filterDatePickerStock;
+    @FXML private ChoiceBox<String> filterTypeChoiceBox;
     @FXML private TableView<StockMovement> stockTable;
     @FXML private TableColumn<StockMovement, String> colProductName;
     @FXML private TableColumn<StockMovement, String> colMovementType;
@@ -42,47 +55,41 @@ public class HistoriquesController implements Initializable {
     @FXML private TableColumn<StockMovement, String> colMovementDate;
     @FXML private TableColumn<StockMovement, String> colUser;
 
-    @FXML private DatePicker filterDatePicker;
-    @FXML private ChoiceBox<String> filterTypeChoiceBox;
-    @FXML private Label totalRevenueLabel;
+    // User Activity Tab (assuming model and service exist)
+    @FXML private TableView<Object> userActivityTable; // Replace Object with UserActivity
+    @FXML private TableColumn<Object, String> colUserActivity;
+    @FXML private TableColumn<Object, String> colAction;
+    @FXML private TableColumn<Object, String> colTimestamp;
+
 
     private FactureService factureService;
     private StockMovementService stockMovementService;
-    private ObservableList<Facture> ventesData;
-    private ObservableList<StockMovement> stockData;
+    // private UserActivityService userActivityService;
+
+    private ObservableList<Facture> ventesData = FXCollections.observableArrayList();
+    private ObservableList<StockMovement> stockData = FXCollections.observableArrayList();
+    // private ObservableList<UserActivity> userActivityData = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             factureService = new FactureService();
             stockMovementService = new StockMovementService();
-            
-            setupUI();
-            setupTables();
-            loadData();
-            
+            // userActivityService = new UserActivityService();
+
+            setupVentesTab();
+            setupStockTab();
+            // setupUserActivityTab();
+
+            loadAllData();
+
         } catch (SQLException e) {
             showAlert("Erreur de connexion à la base de données", Alert.AlertType.ERROR);
             e.printStackTrace();
         }
     }
 
-    private void setupUI() {
-        // Configuration du DatePicker
-        filterDatePicker.setValue(LocalDate.now());
-        filterDatePicker.setOnAction(e -> filterByDate());
-
-        // Configuration du ChoiceBox pour filtrer les mouvements
-        filterTypeChoiceBox.getItems().addAll("Tous", "ENTREE", "SORTIE");
-        filterTypeChoiceBox.setValue("Tous");
-        filterTypeChoiceBox.setOnAction(e -> filterStockMovements());
-
-        // Configuration de la recherche
-        searchField.textProperty().addListener((obs, oldVal, newVal) -> filterData());
-    }
-
-    private void setupTables() {
-        // Configuration table des ventes
+    private void setupVentesTab() {
         colClientName.setCellValueFactory(new PropertyValueFactory<>("clientName"));
         colTableNumber.setCellValueFactory(new PropertyValueFactory<>("tableNumber"));
         colDate.setCellValueFactory(data -> new SimpleStringProperty(
@@ -90,8 +97,13 @@ public class HistoriquesController implements Initializable {
         ));
         colMontant.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
         colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        ventesTable.setItems(ventesData);
 
-        // Configuration table des mouvements de stock
+        searchFieldVentes.textProperty().addListener((obs, old, val) -> filterVentes());
+        filterDatePickerVentes.valueProperty().addListener((obs, old, val) -> filterVentes());
+    }
+
+    private void setupStockTab() {
         colProductName.setCellValueFactory(new PropertyValueFactory<>("productName"));
         colMovementType.setCellValueFactory(new PropertyValueFactory<>("movementType"));
         colQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
@@ -100,43 +112,26 @@ public class HistoriquesController implements Initializable {
             data.getValue().getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
         ));
         colUser.setCellValueFactory(new PropertyValueFactory<>("userAction"));
-
-        // Style pour les mouvements
-        colMovementType.setCellFactory(column -> new TableCell<StockMovement, String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                    setStyle("");
-                } else {
-                    setText(item);
-                    if ("ENTREE".equals(item)) {
-                        setStyle("-fx-text-fill: green; -fx-font-weight: bold;");
-                    } else if ("SORTIE".equals(item)) {
-                        setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
-                    }
-                }
-            }
-        });
-
-        ventesData = FXCollections.observableArrayList();
-        stockData = FXCollections.observableArrayList();
-        
-        ventesTable.setItems(ventesData);
         stockTable.setItems(stockData);
+
+        filterTypeChoiceBox.getItems().addAll("Tous", "ENTREE", "SORTIE");
+        filterTypeChoiceBox.setValue("Tous");
+
+        searchFieldStock.textProperty().addListener((obs, old, val) -> filterStockMovements());
+        filterDatePickerStock.valueProperty().addListener((obs, old, val) -> filterStockMovements());
+        filterTypeChoiceBox.valueProperty().addListener((obs, old, val) -> filterStockMovements());
     }
 
-    private void loadData() {
+    private void loadAllData() {
         loadVentesData();
         loadStockData();
-        updateTotalRevenue();
+        // loadUserActivityData();
     }
 
     private void loadVentesData() {
         try {
-            List<Facture> factures = factureService.getAllFactures();
-            ventesData.setAll(factures);
+            ventesData.setAll(factureService.getAllFactures());
+            updateTotalRevenue();
         } catch (Exception e) {
             showAlert("Erreur lors du chargement des ventes", Alert.AlertType.ERROR);
             e.printStackTrace();
@@ -145,8 +140,7 @@ public class HistoriquesController implements Initializable {
 
     private void loadStockData() {
         try {
-            List<StockMovement> movements = stockMovementService.getAllMovements();
-            stockData.setAll(movements);
+            stockData.setAll(stockMovementService.getAllMovements());
         } catch (Exception e) {
             showAlert("Erreur lors du chargement des mouvements de stock", Alert.AlertType.ERROR);
             e.printStackTrace();
@@ -154,114 +148,126 @@ public class HistoriquesController implements Initializable {
     }
 
     @FXML
-    private void filterByDate() {
-        LocalDate selectedDate = filterDatePicker.getValue();
-        if (selectedDate != null) {
-            try {
-                // Filtrer les ventes par date
-                List<Facture> facturesFiltered = factureService.getFacturesByDate(selectedDate);
-                ventesData.setAll(facturesFiltered);
-
-                // Filtrer les mouvements de stock par date
-                List<StockMovement> movementsFiltered = stockMovementService.getMovementsByDate(selectedDate);
-                stockData.setAll(movementsFiltered);
-
-                updateTotalRevenue();
-            } catch (Exception e) {
-                showAlert("Erreur lors du filtrage par date", Alert.AlertType.ERROR);
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void filterStockMovements() {
-        String selectedType = filterTypeChoiceBox.getValue();
-        if (selectedType != null && !selectedType.equals("Tous")) {
-            try {
-                List<StockMovement> allMovements = stockMovementService.getAllMovements();
-                List<StockMovement> filtered = allMovements.stream()
-                    .filter(movement -> movement.getMovementType().equals(selectedType))
-                    .collect(Collectors.toList());
-                stockData.setAll(filtered);
-            } catch (Exception e) {
-                showAlert("Erreur lors du filtrage des mouvements", Alert.AlertType.ERROR);
-                e.printStackTrace();
-            }
-        } else {
-            loadStockData();
-        }
-    }
-
-    private void filterData() {
-        String searchText = searchField.getText().toLowerCase();
-        if (searchText.isEmpty()) {
-            loadData();
-            return;
-        }
-
-        // Filtrer les ventes
+    private void filterVentes() {
         try {
             List<Facture> allFactures = factureService.getAllFactures();
-            List<Facture> filteredFactures = allFactures.stream()
-                .filter(facture -> 
-                    facture.getClientName().toLowerCase().contains(searchText) ||
-                    String.valueOf(facture.getTableNumber()).contains(searchText) ||
-                    facture.getStatus().toLowerCase().contains(searchText)
-                )
-                .collect(Collectors.toList());
-            ventesData.setAll(filteredFactures);
+            String searchText = searchFieldVentes.getText().toLowerCase();
+            LocalDate selectedDate = filterDatePickerVentes.getValue();
 
-            // Filtrer les mouvements de stock
-            List<StockMovement> allMovements = stockMovementService.getAllMovements();
-            List<StockMovement> filteredMovements = allMovements.stream()
-                .filter(movement ->
-                    movement.getProductName().toLowerCase().contains(searchText) ||
-                    movement.getMovementType().toLowerCase().contains(searchText) ||
-                    (movement.getReason() != null && movement.getReason().toLowerCase().contains(searchText)) ||
-                    (movement.getUserAction() != null && movement.getUserAction().toLowerCase().contains(searchText))
-                )
+            List<Facture> filtered = allFactures.stream()
+                .filter(facture -> {
+                    boolean matchesSearch = searchText.isEmpty() ||
+                        facture.getClientName().toLowerCase().contains(searchText) ||
+                        String.valueOf(facture.getTableNumber()).contains(searchText);
+
+                    boolean matchesDate = selectedDate == null ||
+                        facture.getDate().equals(selectedDate);
+
+                    return matchesSearch && matchesDate;
+                })
                 .collect(Collectors.toList());
-            stockData.setAll(filteredMovements);
+
+            ventesData.setAll(filtered);
+            updateTotalRevenue();
 
         } catch (Exception e) {
-            showAlert("Erreur lors de la recherche", Alert.AlertType.ERROR);
+            showAlert("Erreur lors du filtrage des ventes.", Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void filterStockMovements() {
+        try {
+            List<StockMovement> allMovements = stockMovementService.getAllMovements();
+            String searchText = searchFieldStock.getText().toLowerCase();
+            LocalDate selectedDate = filterDatePickerStock.getValue();
+            String selectedType = filterTypeChoiceBox.getValue();
+
+            List<StockMovement> filtered = allMovements.stream()
+                .filter(movement -> {
+                    boolean matchesSearch = searchText.isEmpty() ||
+                        movement.getProductName().toLowerCase().contains(searchText) ||
+                        (movement.getUserAction() != null && movement.getUserAction().toLowerCase().contains(searchText));
+
+                    boolean matchesDate = selectedDate == null ||
+                        movement.getDate().equals(selectedDate);
+
+                    boolean matchesType = "Tous".equals(selectedType) ||
+                        movement.getMovementType().equals(selectedType);
+
+                    return matchesSearch && matchesDate && matchesType;
+                })
+                .collect(Collectors.toList());
+
+            stockData.setAll(filtered);
+
+        } catch (Exception e) {
+            showAlert("Erreur lors du filtrage des mouvements de stock.", Alert.AlertType.ERROR);
             e.printStackTrace();
         }
     }
 
     private void updateTotalRevenue() {
-        LocalDate selectedDate = filterDatePicker.getValue();
-        if (selectedDate != null) {
-            try {
-                double totalRevenue = factureService.getTotalRevenueByDate(selectedDate);
-                totalRevenueLabel.setText(String.format("Chiffre d'affaires du %s: %.0f FC", 
-                    selectedDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), totalRevenue));
-            } catch (Exception e) {
-                totalRevenueLabel.setText("Erreur de calcul du chiffre d'affaires");
-                e.printStackTrace();
-            }
-        }
+        double total = ventesData.stream()
+            .mapToDouble(Facture::getTotalAmount)
+            .sum();
+        totalRevenueLabel.setText(String.format("Chiffre d'affaires affiché: %.0f FCFA", total));
     }
 
     @FXML
     private void handleRefresh() {
-        loadData();
-        searchField.clear();
-        filterDatePicker.setValue(LocalDate.now());
+        searchFieldVentes.clear();
+        filterDatePickerVentes.setValue(null);
+        searchFieldStock.clear();
+        filterDatePickerStock.setValue(null);
         filterTypeChoiceBox.setValue("Tous");
+        loadAllData();
         showAlert("Données actualisées", Alert.AlertType.INFORMATION);
     }
 
     @FXML
     private void handleExportVentes() {
-        // TODO: Implémenter l'export des ventes en CSV/Excel
-        showAlert("Fonctionnalité d'export en cours de développement", Alert.AlertType.INFORMATION);
+        exportToCSV(ventesTable, "historique_ventes.csv");
     }
 
     @FXML
     private void handleExportStock() {
-        // TODO: Implémenter l'export des mouvements de stock en CSV/Excel
-        showAlert("Fonctionnalité d'export en cours de développement", Alert.AlertType.INFORMATION);
+        exportToCSV(stockTable, "historique_stock.csv");
+    }
+
+    private <T> void exportToCSV(TableView<T> tableView, String defaultFileName) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Exporter en CSV");
+        fileChooser.setInitialFileName(defaultFileName);
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichier CSV (*.csv)", "*.csv"));
+        File file = fileChooser.showSaveDialog(tableView.getScene().getWindow());
+
+        if (file != null) {
+            try (PrintWriter writer = new PrintWriter(file, "UTF-8")) {
+                // Write header
+                List<String> headers = tableView.getColumns().stream()
+                    .map(TableColumnBase::getText)
+                    .collect(Collectors.toList());
+                writer.println(String.join(";", headers));
+
+                // Write data rows
+                for (T item : tableView.getItems()) {
+                    List<String> row = tableView.getColumns().stream()
+                        .map(col -> {
+                            Object cellData = col.getCellData(item);
+                            // Correctly wrap cell data in double quotes for CSV
+                            return cellData != null ? "\"" + cellData.toString().replace("\"", "\"\"") + "\"" : "";
+                        })
+                        .collect(Collectors.toList());
+                    writer.println(String.join(";", row));
+                }
+                showAlert("Exportation réussie !", Alert.AlertType.INFORMATION);
+            } catch (IOException e) {
+                showAlert("Erreur lors de l'exportation.", Alert.AlertType.ERROR);
+                e.printStackTrace();
+            }
+        }
     }
 
     private void showAlert(String message, Alert.AlertType type) {
