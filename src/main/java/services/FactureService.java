@@ -16,7 +16,7 @@ public class FactureService {
         this.connection = DBConnection.getConnection();
     }
 
-    public boolean createFacture(Facture facture) {
+    public Facture createFactureWithDetails(Facture facture) {
         String factureQuery = "INSERT INTO factures (client_name, table_number, date, total_amount, is_paid, status) VALUES (?, ?, ?, ?, ?, ?)";
         String itemQuery = "INSERT INTO facture_items (facture_id, product_name, quantity, unit_price, total_price) VALUES (?, ?, ?, ?, ?)";
         
@@ -34,7 +34,7 @@ public class FactureService {
                 
                 int affectedRows = factureStmt.executeUpdate();
                 if (affectedRows == 0) {
-                    throw new SQLException("Échec de création de la facture");
+                    throw new SQLException("Échec de création de la facture, aucune ligne affectée.");
                 }
                 
                 // Récupérer l'ID généré
@@ -46,6 +46,7 @@ public class FactureService {
                         // Insérer les items
                         try (PreparedStatement itemStmt = connection.prepareStatement(itemQuery)) {
                             for (FactureItem item : facture.getItems()) {
+                                item.setFactureId(factureId); // Assigner l'ID de la facture à l'item
                                 itemStmt.setInt(1, factureId);
                                 itemStmt.setString(2, item.getProductName());
                                 itemStmt.setInt(3, item.getQuantity());
@@ -55,26 +56,28 @@ public class FactureService {
                             }
                             itemStmt.executeBatch();
                         }
+                    } else {
+                        throw new SQLException("Échec de création de la facture, aucun ID obtenu.");
                     }
                 }
             }
             
             connection.commit();
-            return true;
-            
+            return facture; // Retourner la facture complète avec son ID
+
         } catch (SQLException e) {
             try {
                 connection.rollback();
             } catch (SQLException rollbackEx) {
-                rollbackEx.printStackTrace();
+                rollbackEx.printStackTrace(); // Log l'erreur de rollback
             }
             e.printStackTrace();
-            return false;
+            return null; // Retourner null en cas d'erreur
         } finally {
             try {
                 connection.setAutoCommit(true);
             } catch (SQLException e) {
-                e.printStackTrace();
+                e.printStackTrace(); // Log l'erreur de réinitialisation
             }
         }
     }

@@ -95,6 +95,25 @@ CREATE TABLE IF NOT EXISTS products (
         }
     }
 
+    public Product getProductByName(String name) throws SQLException {
+        String query = "SELECT * FROM products WHERE name = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, name);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Product(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getInt("quantity"),
+                        rs.getString("category"),
+                        rs.getDate("date").toLocalDate()
+                    );
+                }
+            }
+        }
+        return null;
+    }
 
     public boolean enregistrerSuppressionHistorique(int productId, String name, String motif, LocalDate dateSuppression) {
         String sql = "INSERT INTO historique_suppression (product_id, name, motif, date_suppression) VALUES (?, ?, ?, ?)";

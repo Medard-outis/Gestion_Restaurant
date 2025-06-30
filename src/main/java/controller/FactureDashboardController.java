@@ -13,6 +13,8 @@ import models.FactureItem;
 import models.Product;
 import services.FactureService;
 import services.ProductService;
+import services.StockMovementService;
+import utils.Session;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -39,6 +41,7 @@ public class FactureDashboardController implements Initializable {
 
     private ProductService productService;
     private FactureService factureService;
+    private StockMovementService stockMovementService; // Service pour gérer les mouvements de stock
     private ObservableList<FactureItem> factureItems;
     private Facture currentFacture;
 
@@ -47,6 +50,7 @@ public class FactureDashboardController implements Initializable {
         try {
             productService = new ProductService();
             factureService = new FactureService();
+            stockMovementService = new StockMovementService(); // Initialiser le service
             factureItems = FXCollections.observableArrayList();
             currentFacture = new Facture();
 
@@ -191,23 +195,55 @@ public class FactureDashboardController implements Initializable {
             currentFacture.setClientName(clientNameField.getText());
             currentFacture.setTableNumber(tableChoiceBox.getValue());
             currentFacture.setDate(datePicker.getValue());
-            currentFacture.setStatus("EN_COURS");
-            currentFacture.setIsPaid(false);
+            currentFacture.setStatus("Payée"); // La facture est considérée comme payée lors de l'enregistrement
+            currentFacture.setIsPaid(true);
             currentFacture.setItems(factureItems);
 
-            boolean success = factureService.createFacture(currentFacture);
+            Facture createdFacture = factureService.createFactureWithDetails(currentFacture);
 
-            if (success) {
-                showAlert("Facture créée avec succès", Alert.AlertType.INFORMATION);
+            if (createdFacture != null) {
+                // Étape cruciale : Déduire les articles vendus du stock
+                updateStockAfterSale(createdFacture);
+
+                showAlert("Facture enregistrée et stock mis à jour avec succès !", Alert.AlertType.INFORMATION);
                 clearAllFields();
+                loadProducts(); // Recharger les produits pour mettre à jour la liste (ceux en rupture disparaîtront)
                 currentFacture = new Facture();
             } else {
                 showAlert("Erreur lors de la création de la facture", Alert.AlertType.ERROR);
             }
 
         } catch (Exception e) {
-            showAlert("Erreur lors de la sauvegarde", Alert.AlertType.ERROR);
+            showAlert("Erreur lors de la sauvegarde : " + e.getMessage(), Alert.AlertType.ERROR);
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Met à jour le stock pour chaque article vendu dans une facture.
+     * @param facture La facture qui a été payée.
+     */
+    private void updateStockAfterSale(Facture facture) {
+        String user = Session.getInstance().getUser() != null ? Session.getInstance().getUser().getUsername() : "Système";
+        String reason = "Vente - Facture #" + facture.getId();
+
+        for (FactureItem item : facture.getItems()) {
+            try {
+                Product product = productService.getProductByName(item.getProductName());
+                if (product != null) {
+                    stockMovementService.processStockExit(
+                        product.getId(),
+                        product.getName(),
+                        item.getQuantity(),
+                        reason,
+                        user
+                    );
+                }
+            } catch (SQLException e) {
+                // Log l'erreur mais ne bloque pas le processus pour les autres articles
+                System.err.println("Erreur lors de la mise à jour du stock pour le produit : " + item.getProductName());
+                e.printStackTrace();
+            }
         }
     }
 
@@ -307,3 +343,4 @@ public class FactureDashboardController implements Initializable {
         alert.showAndWait();
     }
 }
+
