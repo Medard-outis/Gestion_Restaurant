@@ -20,7 +20,7 @@
                <children>
                   <Label fx:id="welcomeLabel" text="Bienvenue Administrateur" style="-fx-text-fill: white; -fx-font-size: 14px;" 
                          HBox.hgrow="ALWAYS" />
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="minimize" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../Images/Minimize.png" />
                      </image>
@@ -28,9 +28,17 @@
                         <Insets right="10.0" />
                      </HBox.margin>
                   </ImageView>
-                  <ImageView fx:id="exitIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="maximize" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Images/Exit.png" />
+                        <Image url="@../Images/Maximize.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ImageView fx:id="exit" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/close.png" />
                      </image>
                      <HBox.margin>
                         <Insets right="10.0" />

@@ -25,8 +25,9 @@ import java.util.logging.Logger;
 public class DashBoardController implements Initializable {
 
     @FXML private Button logoutButton;
-    @FXML private ImageView Exit;
-    @FXML private ImageView Reduire;
+    @FXML private ImageView exit;
+    @FXML private ImageView minimize;
+    @FXML private ImageView maximize;
     @FXML private StackPane contentArea;
 
     // Ajout des fx:id pour les boutons du menu
@@ -45,13 +46,24 @@ public class DashBoardController implements Initializable {
         }
 
         // Gérer les actions des icônes
-        Exit.setOnMouseClicked(event -> System.exit(0));
-        Reduire.setOnMouseClicked(event -> {
-            Stage stage = (Stage) Reduire.getScene().getWindow();
-            if (stage != null) {
+        if (exit != null) {
+            exit.setOnMouseClicked(event -> {
+                Stage stage = (Stage) exit.getScene().getWindow();
+                stage.close();
+            });
+        }
+        if (minimize != null) {
+            minimize.setOnMouseClicked(event -> {
+                Stage stage = (Stage) minimize.getScene().getWindow();
                 stage.setIconified(true);
-            }
-        });
+            });
+        }
+        if (maximize != null) {
+            maximize.setOnMouseClicked(event -> {
+                Stage stage = (Stage) maximize.getScene().getWindow();
+                stage.setMaximized(!stage.isMaximized());
+            });
+        }
 
         // Charger la vue d'accueil par défaut
         try {

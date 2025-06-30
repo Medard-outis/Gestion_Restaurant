@@ -23,7 +23,9 @@ public class AuthController implements Initializable {
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
-    @FXML private ImageView Exit;
+    @FXML private ImageView exit;
+    @FXML private ImageView minimize;
+    @FXML private ImageView maximize;
 
     private AuthService authService;
 
@@ -41,9 +43,24 @@ public class AuthController implements Initializable {
             e.printStackTrace();
         }
 
-        // Fermer l'application
-        if (Exit != null) {
-            Exit.setOnMouseClicked(event -> System.exit(0));
+        // Gestion des boutons réduire, maximiser/restaurer et fermer
+        if (exit != null) {
+            exit.setOnMouseClicked(event -> {
+                Stage stage = (Stage) exit.getScene().getWindow();
+                stage.close();
+            });
+        }
+        if (minimize != null) {
+            minimize.setOnMouseClicked(event -> {
+                Stage stage = (Stage) minimize.getScene().getWindow();
+                stage.setIconified(true);
+            });
+        }
+        if (maximize != null) {
+            maximize.setOnMouseClicked(event -> {
+                Stage stage = (Stage) maximize.getScene().getWindow();
+                stage.setMaximized(!stage.isMaximized());
+            });
         }
     }
 

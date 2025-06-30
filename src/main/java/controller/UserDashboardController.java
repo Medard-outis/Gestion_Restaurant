@@ -24,12 +24,35 @@ public class UserDashboardController implements Initializable {
     @FXML private Button logoutButton;
     @FXML private ImageView Exit;
     @FXML private StackPane contentArea;
+    @FXML private ImageView minimize;
+    @FXML private ImageView maximize;
+    @FXML private ImageView exit;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         User user = Session.getInstance().getUser();
         if (user != null) {
             System.out.println("Bienvenue " + user.getUsername());
+        }
+
+        // Gestion des boutons universels
+        if (exit != null) {
+            exit.setOnMouseClicked(event -> {
+                Stage stage = (Stage) exit.getScene().getWindow();
+                stage.close();
+            });
+        }
+        if (minimize != null) {
+            minimize.setOnMouseClicked(event -> {
+                Stage stage = (Stage) minimize.getScene().getWindow();
+                stage.setIconified(true);
+            });
+        }
+        if (maximize != null) {
+            maximize.setOnMouseClicked(event -> {
+                Stage stage = (Stage) maximize.getScene().getWindow();
+                stage.setMaximized(!stage.isMaximized());
+            });
         }
 
         // Fermer l'application

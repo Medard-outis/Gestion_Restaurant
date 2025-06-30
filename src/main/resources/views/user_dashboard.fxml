@@ -21,9 +21,20 @@
                     <children>
                         <Pane layoutX="102.0" layoutY="20.0" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: #032d4d;" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <children>
-                                <ImageView fx:id="Exit" fitHeight="22.0" fitWidth="22.0" layoutX="1126.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+
+                                <ImageView fx:id="minimize" fitHeight="21.0" fitWidth="21.0" layoutX="1065.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+                                   <image>
+                                      <Image url="@../Images/Minimize.png" />
+                                   </image>
+                                </ImageView>
+                                <ImageView fx:id="maximize" fitHeight="21.0" fitWidth="21.0" layoutX="1080.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+                                   <image>
+                                      <Image url="@../Images/Maximize.png" />
+                                   </image>
+                                </ImageView>
+                                <ImageView fx:id="exit" fitHeight="22.0" fitWidth="22.0" layoutX="1126.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../Images/Exit.png" />
+                                        <Image url="@../Images/close.png" />
                                     </image>
                                 </ImageView>
                         <ImageView fitHeight="21.0" fitWidth="21.0" layoutX="1094.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">

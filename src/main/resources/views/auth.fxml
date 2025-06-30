@@ -51,10 +51,24 @@
                 </VBox>
             </children>
         </HBox>
-        <ImageView fx:id="exit" fitHeight="20.0" fitWidth="20.0" layoutX="870.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-            <image>
-                <Image url="@../Images/close.png" />
-            </image>
-        </ImageView>
+        <HBox spacing="5.0" alignment="TOP_RIGHT" layoutX="800.0" layoutY="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <children>
+                <ImageView fx:id="minimize" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../Images/Minimize.png" />
+                    </image>
+                </ImageView>
+                <ImageView fx:id="maximize" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../Images/Maximize.png" />
+                    </image>
+                </ImageView>
+                <ImageView fx:id="exit" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../Images/close.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </HBox>
     </children>
 </AnchorPane>
