@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.Cursor?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,9 +11,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/dashboard.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashBoardController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/dashboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashBoardController">
     <children>
         <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <!-- En-tête -->
@@ -33,44 +33,67 @@
                         </ImageView>
                     </children>
                 </HBox>
-                <HBox spacing="5.0" alignment="TOP_RIGHT" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                <HBox prefHeight="29.0" prefWidth="1280.0" spacing="5.0" style="-fx-background-color: black;" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" BorderPane.alignment="CENTER_RIGHT">
                     <children>
-                        <ImageView fx:id="minimize" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../Images/Minimize.png" />
-                            </image>
-                        </ImageView>
-                        <ImageView fx:id="maximize" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../Images/Maximize.png" />
-                            </image>
-                        </ImageView>
                         <ImageView fx:id="exit" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../Images/close.png" />
                             </image>
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                        </ImageView>
+                        <ImageView fx:id="maximize" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../Images/Max.png" />
+                            </image>
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                        </ImageView>
+                        <ImageView fx:id="minimize" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../Images/Min.png" />
+                            </image>
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
                         </ImageView>
                     </children>
                 </HBox>
             </top>
             <!-- Menu latéral -->
             <left>
-                <VBox styleClass="sidebar" BorderPane.alignment="CENTER">
+                <VBox alignment="TOP_CENTER" prefHeight="664.0" prefWidth="139.0" styleClass="sidebar" BorderPane.alignment="CENTER">
                     <children>
-                        <JFXButton onAction="#home" styleClass="sidebar-button" text="Accueil" />
-                        <JFXButton onAction="#facturations" styleClass="sidebar-button" text="Facturations" />
-                        <JFXButton fx:id="gestionButton" onAction="#gestion" styleClass="sidebar-button" text="Gestion Stock" />
-                        <JFXButton fx:id="utilisateursButton" onAction="#utilisateurs" styleClass="sidebar-button" text="Utilisateurs" />
-                        <JFXButton fx:id="historiquesButton" onAction="#historiques" styleClass="sidebar-button" text="Historiques" />
-                        <JFXButton fx:id="mouvementsStockButton" onAction="#mouvementsStock" styleClass="sidebar-button" text="Mouvements" />
+                  <ImageView fitHeight="39.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/1%20Maman%20Rita%20copie.png" />
+                     </image>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <VBox.margin>
+                        <Insets bottom="20.0" top="10.0" />
+                     </VBox.margin>
+                  </ImageView>
+                        <JFXButton onAction="#home" prefHeight="40.0" prefWidth="138.0" styleClass="sidebar-button" text="Accueil" />
+                        <JFXButton onAction="#facturations" prefHeight="40.0" prefWidth="138.0" styleClass="sidebar-button" text="Facturations" />
+                        <JFXButton fx:id="gestionButton" onAction="#gestion" prefHeight="40.0" prefWidth="139.0" styleClass="sidebar-button" text="Gestion Stock" />
+                        <JFXButton fx:id="utilisateursButton" onAction="#utilisateurs" prefHeight="40.0" prefWidth="139.0" styleClass="sidebar-button" text="Utilisateurs" />
+                        <JFXButton fx:id="historiquesButton" onAction="#historiques" prefHeight="40.0" prefWidth="138.0" styleClass="sidebar-button" text="Historiques" />
+                        <JFXButton fx:id="mouvementsStockButton" onAction="#mouvementsStock" prefHeight="40.0" prefWidth="138.0" styleClass="sidebar-button" text="Mouvements" />
                         <VBox VBox.vgrow="ALWAYS" />
-                        <JFXButton fx:id="logoutButton" onAction="#handleLogout" styleClass="logout-button" text="Déconnexion" />
+                        <JFXButton fx:id="logoutButton" onAction="#handleLogout" prefHeight="44.0" prefWidth="139.0" styleClass="logout-button" text="Déconnexion" />
                     </children>
                 </VBox>
             </left>
             <!-- Contenu principal -->
             <center>
-                <StackPane fx:id="contentArea" styleClass="content-area" BorderPane.alignment="CENTER" />
+                <StackPane fx:id="contentArea" prefHeight="662.0" prefWidth="1141.0" styleClass="content-area" BorderPane.alignment="CENTER">
+               <children>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+               </children></StackPane>
             </center>
         </BorderPane>
     </children>

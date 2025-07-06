@@ -2,27 +2,31 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" styleClass="root" stylesheets="@../styles/auth.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AuthController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" styleClass="root" stylesheets="@../styles/auth.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AuthController">
     <children>
         <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <!-- Left Pane for Image -->
                 <StackPane prefWidth="450.0" style="-fx-background-color: #334756;">
                     <children>
-                        <ImageView fitHeight="600.0" fitWidth="450.0" pickOnBounds="true" opacity="0.3">
+                        <ImageView fitHeight="600.0" fitWidth="450.0" opacity="0.3" pickOnBounds="true">
                             <image>
-                                <Image url="@../Images/3964906.jpg" />
+                                <Image url="@../Images/4d006dc55ff8d777542fbf43be1b53a9.jpg" />
                             </image>
                         </ImageView>
                         <VBox alignment="CENTER" spacing="15.0">
@@ -30,43 +34,88 @@
                                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                             </padding>
                             <children>
-                                <Label style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white;" text="Gestion de Restaurant" />
+                        <ImageView fitHeight="142.0" fitWidth="307.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/1%20Maman%20Rita%20copie.png" />
+                           </image>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </ImageView>
+                                <Label style="-fx-font-size: 40px; -fx-font-weight: bold; -fx-text-fill: white;" text="Restaurant le Notre">
+                           <font>
+                              <Font name="Roboto Regular" size="48.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Label>
                                 <Text fill="white" style="-fx-font-size: 14px;" text="Votre solution complète pour une gestion efficace et simplifiée." textAlignment="CENTER" wrappingWidth="350.0" />
                             </children>
                         </VBox>
                     </children>
                 </StackPane>
-                <!-- Right Pane for Login Form -->
-                <VBox alignment="CENTER" prefWidth="450.0" spacing="20.0" style="-fx-background-color: #f4f7f9;">
-                    <padding>
+            <AnchorPane prefHeight="600.0" prefWidth="471.0">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <children>
+                  <AnchorPane layoutX="154.0" layoutY="167.0" prefHeight="507.0" prefWidth="450.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="487.0" prefWidth="450.0" spacing="20.0" style="-fx-background-color: #f4f7f9;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <padding>
                         <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
-                    </padding>
-                    <children>
-                        <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #334756;" text="Bienvenue !" />
-                        <TextField fx:id="usernameField" promptText="Nom d'utilisateur" style="-fx-font-size: 14px;" prefHeight="40.0" />
-                        <PasswordField fx:id="passwordField" promptText="Mot de passe" style="-fx-font-size: 14px;" prefHeight="40.0" />
-                        <JFXButton onAction="#handleLogin" style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;" text="Se connecter" prefHeight="40.0" prefWidth="350.0" />
+                     </padding>
+                     <children>
+                        <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #334756;" text="Bienvenue !">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                        </Label>
+                        <TextField fx:id="usernameField" prefHeight="40.0" promptText="Nom d'utilisateur" style="-fx-font-size: 14px;" />
+                        <PasswordField fx:id="passwordField" prefHeight="40.0" promptText="Mot de passe" style="-fx-font-size: 14px;" />
+                        <JFXButton onAction="#handleLogin" prefHeight="40.0" prefWidth="350.0" style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;" text="Se connecter">
+                           <effect>
+                              <DropShadow>
+                                 <input>
+                                    <InnerShadow />
+                                 </input>
+                              </DropShadow>
+                           </effect>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
                         <Label fx:id="errorLabel" style="-fx-text-fill: red;" />
-                    </children>
-                </VBox>
+                     </children>
+                  </VBox>
+                  <ImageView fitHeight="41.0" fitWidth="44.0" layoutX="404.0" layoutY="552.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                     <image>
+                        <Image url="@../Images/PNG.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
             </children>
         </HBox>
-        <HBox spacing="5.0" alignment="TOP_RIGHT" layoutX="800.0" layoutY="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+        <HBox alignment="TOP_RIGHT" layoutX="800.0" layoutY="10.0" spacing="5.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <children>
                 <ImageView fx:id="minimize" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../Images/Minimize.png" />
+                        <Image url="@../Images/Min.png" />
                     </image>
-                </ImageView>
-                <ImageView fx:id="maximize" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../Images/Maximize.png" />
-                    </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
                 </ImageView>
                 <ImageView fx:id="exit" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../Images/close.png" />
                     </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
                 </ImageView>
             </children>
         </HBox>

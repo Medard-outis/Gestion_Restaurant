@@ -11,6 +11,8 @@ import utils.DatabaseInitializer;
 import java.util.Objects;
 
 public class Main extends Application {
+
+    // Variables for dragging the window
     double x,y = 0;
     @Override
     public void start(Stage primaryStage) throws Exception{
